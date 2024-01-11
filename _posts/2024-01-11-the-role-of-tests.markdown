@@ -1,7 +1,6 @@
 ---
 layout: single
-classes:
-  - wide
+
 title: "The role of tests"
 date: 2024-01-11 11:51:49 +0100
 header:
