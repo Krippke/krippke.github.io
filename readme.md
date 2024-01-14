@@ -1,4 +1,5 @@
 
 open $(bundle info --path minimal-mistakes-jekyll)
 
-bundle exec jekyll serve
+# Start your local development
+bundle exec jekyll serve --drafts
