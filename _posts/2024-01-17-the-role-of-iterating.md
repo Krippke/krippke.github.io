@@ -1,6 +1,8 @@
 ---
 layout: single
+
 title: "The role of iterating"
+date: 2024-01-17 23:07:49 +0100
 header:
   teaser: /assets/images/busy-developer.png
 ---
