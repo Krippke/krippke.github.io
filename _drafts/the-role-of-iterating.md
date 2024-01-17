@@ -2,12 +2,16 @@
 layout: single
 title: "The role of iterating"
 header:
-  teaser: /assets/images/struggling-developer.jpg
+  teaser: /assets/images/busy-developer.png
 ---
+
 
 Erleben Sie die Softwareentwicklung durch meine Augen. Von den ersten zaghaften Schritten bis zu den heutigen Erfolgen – meine Geschichte ist geprägt von Erkenntnissen, Rückschlägen und entscheidenden Wendepunkten. Entdecken Sie, wie ich mich von einem unerfahrenen Entwickler zu einem agilen Denker entwickelt habe und dabei die Bedeutung von kleinen, iterativen Schritten begriffen habe.
 
-Mein erstes größeres Projekt startete zwei Jahre nach meinem Beginn in der Softwareentwicklung. Gemeinsam mit meinem Projektleiter haben wir uns über die zu bewältigenden Aufgaben ausgetauscht, und ich habe schrittweise die Funktionen umgesetzt. Zu dieser Zeit, noch ohne den Einsatz automatisierter Tests und deren Vorteile, traten die Probleme mit dieser Vorgehensweise erst vergleichsweise spät auf.
+<img src="/assets/images/busy-developer.png">
+
+
+Mein erstes größeres Projekt startete zwei Jahre nach meinem Beginn in der Softwareentwicklung. Gemeinsam mit meinem Projektleiter haben wir uns über die zu bewältigenden Aufgaben ausgetauscht, und ich habe schrittweise die Funktionen umgesetzt. Zu dieser Zeit, noch ohne den Einsatz [automatisierter Tests](/2024/01/11/the-role-of-tests.html) und deren Vorteile, traten die Probleme mit dieser Vorgehensweise erst vergleichsweise spät auf.
 
 Die Schwierigkeiten traten stets auf, wenn die entwickelten Funktionen erstmals auf die künftigen Nutzer trafen. Schnell wurde deutlich, dass Annahmen, die zu Beginn des Projekts getroffen wurden, entweder falsch verstanden oder nicht umfassend berücksichtigt worden waren. Die Konsequenzen dieser fehlenden Informationen führten zu aufwendigen Umbauarbeiten, die natürlich nicht in der ursprünglichen Zeitplanung des Projekts vorgesehen waren. Was bedeuten Arbeiten die nicht eingeplant waren? Richtig, eine stressige Zeit mit vielen Überstunden.
 
@@ -22,6 +26,8 @@ Ein neuer Ansatz kristallisierte sich heraus: Statt alle erforderlichen Funktion
 Bis zu diesem Zeitpunkt hatten wir ein Modell verfolgt, bei dem eine zentrale Entwicklungsinstanz einmalig zu Beginn des Projektes aufgesetzt wurde. Diese lief so lange, wie der Kunde die erstellten Anwendungen bei sich betrieb. Allerdings standen wir vor einem Problem, als mit den zunehmenden Vorstellungsrunden bei den Endnutzern die Entwicklung zeitweise stillstehen musste. Das konnten wir uns langfristig nicht leisten. Daher entschieden wir uns dafür, dass jeder Entwickler seine Funktionen lokal umsetzt und diese dann schrittweise in die zentrale Entwicklungsinstanz integriert. Die Anzahl der Installationen hatte sich dadurch jedoch so vermehrt, dass dies als zu aufwendig betrachtet wurde. Es war nicht praktikabel, dass ein Entwickler 4 Stunden aufwendet, um eine lokale Entwicklungsumgebung zu erstellen, nur um ein kleines Feature zu entwickeln.
 
 Das klare neue Ziel lautete: Eine lokale Entwicklungsumgebung sollte mit nur einem Befehl erstellt werden können. Zu meiner Überraschung wurde dieses Ziel verhältnismäßig schnell erreicht. Die positiven Auswirkungen dieses Zustands wurden uns erst im Laufe der Zeit bewusst. Es war nun mühelos möglich, kurzfristig eine Demo-Instanz zu erstellen oder schnell Tests mit dem Kunden durchzuführen. Vieles, was zuvor als zu aufwendig erschien, konnte nun problemlos umgesetzt werden, da eine Anwendung mit aktuellem Entwicklungsstand nur einen simplen Befehl entfernt war.
+
+<img src="/assets/images/celebrating-2.png">
 
 Diese Erfahrung hat mir verdeutlicht, dass es sich lohnt, alle Elemente, die zu einer Verlängerung einer Entwicklungsiteration beitragen, zu optimieren. Je schneller ich in der Lage bin, eine Iteration abzuschließen, desto effizienter kann ich arbeiten und dementsprechend mehr in meiner Arbeitszeit erreichen. Nachdem mir diese Erkenntnis bewusst wurde, habe ich meinen Fokus darauf gerichtet, Themen zu optimieren, die in einer Entwicklungsiteration besonders zeit- und ressourcenaufwändig sind.
 

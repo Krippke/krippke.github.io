@@ -7,11 +7,9 @@ header:
   teaser: /assets/images/struggling-developer.jpg
 ---
 
-<img src="/assets/images/struggling-developer.jpg">
-
-# The Role of Tests
-
 Welcome to my personal journey of 12 years as a software developer. In this retrospective, I would like to share my development from the beginning until today, with a special focus on the transformative role of automated tests. The term 'test' in the title refers to the very automated tests that have significantly influenced the way I work and the quality of my software. Let's look at the highs and lows of this journey together, how I have overcome challenges and what I have learnt along the way.
+
+<img src="/assets/images/struggling-developer.jpg">
 
 I started my journey as a developer 12 years ago. Looking back, my approach to developing code components was pretty disastrous. Based on a verbal description of a function, I started thinking about how I could implement it as a program. After the initial considerations, I started creating the components straight away. As soon as there were no more syntax errors to be found, I compiled the entire software project and started it locally on my PC. I navigated through the user interface to the place where the feature was used and clicked around. If an error occurred, I checked the log files, analysed the stack trace and tried to fix the error. This cycle of building code, compiling software, navigating the UI and troubleshooting was repeated until the feature seemed to work and no more errors occurred.
 
