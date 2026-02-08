@@ -64,16 +64,16 @@ I get it. Traditional web hosting is a maintenance tax that kills motivation. Th
 
 ```
   +-----------------------------------------------+
-  |  ~ Terminal                            _ [] x  |
+  |  ~ Terminal                            _ [] x |
   +-----------------------------------------------+
-  |                                                |
-  |  $ vim why-caching-matters.md                  |
-  |  $ git add .                                   |
-  |  $ git commit -m "New post"                    |
-  |  $ git push                                    |
-  |                                                |
-  |  remote: Your site is published.               |
-  |                                                |
+  |                                               |
+  |  $ vim why-caching-matters.md                 |
+  |  $ git add .                                  |
+  |  $ git commit -m "New post"                   |
+  |  $ git push                                   |
+  |                                               |
+  |  remote: Your site is published.              |
+  |                                               |
   +-----------------------------------------------+
 ```
 
