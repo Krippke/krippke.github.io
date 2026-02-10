@@ -220,7 +220,7 @@ GEM
       jekyll (>= 3.5, < 5.0)
       jekyll-feed (~> 0.9)
       jekyll-seo-tag (~> 2.1)
-    minimal-mistakes-jekyll (4.20.2)
+    minimal-mistakes-jekyll (4.27.3)
       jekyll (>= 3.7, < 5.0)
       jekyll-feed (~> 0.1)
       jekyll-gist (~> 1.5)
@@ -282,7 +282,7 @@ GEM
     unf_ext (0.0.9.1)
     unicode-display_width (1.8.0)
     uri (0.13.0)
-    webrick (1.8.1)
+    webrick (1.9.2)
 
 PLATFORMS
   aarch64-linux
@@ -306,13 +306,13 @@ PLATFORMS
 DEPENDENCIES
   github-pages
   http_parser.rb (~> 0.6.0)
-  jekyll-feed (~> 0.12)
+  jekyll-feed (~> 0.15)
   jekyll-include-cache
-  minimal-mistakes-jekyll (~> 4.20.0)
+  minimal-mistakes-jekyll (~> 4.24)
   tzinfo (>= 1, < 3)
   tzinfo-data
   wdm (~> 0.1.1)
-  webrick (~> 1.8)
+  webrick (~> 1.9)
 
 BUNDLED WITH
    2.5.3
