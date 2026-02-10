@@ -3,13 +3,22 @@ layout: single
 
 title: "The role of tests"
 date: 2024-01-11 11:51:49 +0100
+last_modified_at: 2024-01-17T22:37:53+01:00
 header:
   teaser: /assets/images/struggling-developer.jpg
+tags:
+  [
+    software development,
+    automated testing,
+    software architecture,
+    code quality,
+    agile,
+  ]
 ---
 
 Welcome to my personal journey of 12 years as a software developer. In this retrospective, I would like to share my development from the beginning until today, with a special focus on the transformative role of automated tests. The term 'test' in the title refers to the very automated tests that have significantly influenced the way I work and the quality of my software. Let's look at the highs and lows of this journey together, how I have overcome challenges and what I have learnt along the way.
 
-<img src="/assets/images/struggling-developer.jpg">
+![Developer struggling with code](/assets/images/struggling-developer.jpg)
 
 I started my journey as a developer 12 years ago. Looking back, my approach to developing code components was pretty disastrous. Based on a verbal description of a function, I started thinking about how I could implement it as a program. After the initial considerations, I started creating the components straight away. As soon as there were no more syntax errors to be found, I compiled the entire software project and started it locally on my PC. I navigated through the user interface to the place where the feature was used and clicked around. If an error occurred, I checked the log files, analysed the stack trace and tried to fix the error. This cycle of building code, compiling software, navigating the UI and troubleshooting was repeated until the feature seemed to work and no more errors occurred.
 
@@ -27,7 +36,7 @@ It is precisely this changeability that cannot be mapped with my original type o
 
 Over the years, I have repeatedly read about different types of automated tests. Unit tests, integration tests, end-to-end tests were theoretical concepts for me and nothing that I came into contact with in my daily work. I had tried from time to time to create automated tests for my components. However, it always failed because I didn't know how to create tests in our software. Looking back, I can now say that the obstacle to unit tests was our software architecture. No boundaries were defined, components were overlaid with responsibilities. Almost all components of the entire software had to be initialised for a unit test. We'll save the topic of software architecture for another post.
 
-<img src="/assets/images/celebrating.jpg">
+![Developer celebrating a breakthrough](/assets/images/celebrating.jpg)
 
 Almost 8 years after I started developing software, I was now able to write tests. The positive effects quickly became apparent. After 8 years without tests, you have gained some experience and appreciate the benefits of automated tests:
 

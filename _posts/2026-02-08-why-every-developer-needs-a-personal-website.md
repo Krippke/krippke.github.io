@@ -3,6 +3,7 @@ layout: single
 
 title: "Why every developer needs a personal website"
 date: 2026-02-08 12:00:00 +0100
+last_modified_at: 2026-02-08T22:52:58+01:00
 header:
   teaser: /assets/images/personal-website.png
 author: "Manuel Holzrichter"
@@ -46,7 +47,7 @@ This is _exactly_ what happens in a meeting with a stakeholder. Except in a blog
 
 Every post you publish is a practice run for the conversations that actually matter. The ones where misunderstanding costs weeks of rework, where a well-chosen metaphor saves a project from going sideways.
 
-I wrote about [the role of writing](/2025/05/05/the-role-of-writing.html) before, about how writing debugs your thinking. A personal website takes that principle and makes it a habit. Not a one-off exercise, but a continuous practice of clarity.
+I wrote about [the role of writing](/2025/05/05/the-role-of-writing/) before, about how writing debugs your thinking. A personal website takes that principle and makes it a habit. Not a one-off exercise, but a continuous practice of clarity.
 
 ## In the Age of AI, Communication Is Your Multiplier
 

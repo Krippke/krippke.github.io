@@ -3,6 +3,7 @@ layout: single
 
 title: "The role of writing"
 date: 2025-05-05 13:48:49 +0100
+last_modified_at: 2025-05-05T20:13:47+02:00
 header:
   teaser: /assets/images/typewriter.png
 author: "Manuel Holzrichter"
