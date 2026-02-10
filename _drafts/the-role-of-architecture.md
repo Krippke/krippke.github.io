@@ -4,10 +4,10 @@ layout: single
 title: "The role of architecture"
 date: 2024-01-11 11:51:49 +0100
 header:
-  teaser: /assets/images/working-baby.png
+  teaser: /assets/images/working-baby.jpg
 ---
 
-<img src="/assets/images/working-baby.png">
+<img src="/assets/images/working-baby.jpg">
 
 ## Content
 

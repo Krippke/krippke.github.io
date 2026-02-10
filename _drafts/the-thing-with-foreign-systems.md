@@ -4,7 +4,7 @@ layout: single
 title: "The thing with foreign systems"
 date: 2024-01-11 11:51:49 +0100
 header:
-  teaser: /assets/images/typewriter.png
+  teaser: /assets/images/typewriter.jpg
 ---
 
 ## Content

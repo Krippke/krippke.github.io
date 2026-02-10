@@ -5,7 +5,7 @@ title: "Why every developer needs a personal website"
 date: 2026-02-08 12:00:00 +0100
 last_modified_at: 2026-02-08T22:52:58+01:00
 header:
-  teaser: /assets/images/personal-website.png
+  teaser: /assets/images/personal-website.jpg
 author: "Manuel Holzrichter"
 tags:
   [

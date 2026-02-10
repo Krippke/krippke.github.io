@@ -70,7 +70,7 @@ author:
       url: "https://github.com/Krippke"
 
 name: Manuel Holzrichter
-teaser: /assets/images/500x300.png
+teaser: /assets/images/personal-website.jpg
 defaults:
   # _posts
   - scope:

@@ -5,7 +5,7 @@ title: "The role of iterating"
 date: 2024-01-17 23:07:49 +0100
 last_modified_at: 2024-01-17T23:08:32+01:00
 header:
-  teaser: /assets/images/busy-developer.png
+  teaser: /assets/images/busy-developer.jpg
 tags:
   [
     software development,
@@ -18,7 +18,7 @@ tags:
 
 Experience software development through my eyes. From the initial hesitant steps to today's successes, my story is marked by insights, setbacks, and crucial turning points. Explore how I evolved from an inexperienced developer to an agile thinker, grasping the significance of small, iterative steps along the way.
 
-![Busy developer working on multiple tasks](/assets/images/busy-developer.png)
+![Busy developer working on multiple tasks](/assets/images/busy-developer.jpg)
 
 My first major project began two years after I started in software development. Together with my project manager, we discussed the tasks at hand, and I gradually implemented the features. At that time, without the use of [automated tests](/2024/01/11/the-role-of-tests/) and their benefits, the problems with this approach only became apparent relatively late in the process.
 
@@ -35,7 +35,7 @@ Up to that point we had followed a model where a central development instance wa
 
 The clear new goal was: It should be possible to create a local development environment with just one command. To my surprise, this was achieved relatively quickly. Over time, we began to see the positive effects of this state. It was now effortless to quickly create a demo instance or run tests with the client at short notice. Many tasks that had previously seemed cumbersome could now be performed with ease, as an application at the latest development stage was only a simple command away.
 
-![Developer celebrating improved workflow](/assets/images/celebrating-2.png)
+![Developer celebrating improved workflow](/assets/images/celebrating-2.jpg)
 
 This experience has made me realise that it is worth optimising all the elements that contribute to extending a development iteration. The faster I can complete an iteration, the more efficient I can be and the more I can achieve in my working time. Once I realised this, I focused on optimising the most time-consuming and resource-intensive elements of a development iteration.
 

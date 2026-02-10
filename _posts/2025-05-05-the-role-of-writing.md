@@ -5,7 +5,7 @@ title: "The role of writing"
 date: 2025-05-05 13:48:49 +0100
 last_modified_at: 2025-05-05T20:13:47+02:00
 header:
-  teaser: /assets/images/typewriter.png
+  teaser: /assets/images/typewriter.jpg
 author: "Manuel Holzrichter"
 tags:
   [
@@ -23,7 +23,7 @@ Hey fellow coders and keyboard ninjas!
 
 We all know the feeling, right? Deep in the trenches of code, fifth cup of coffee kicking in, the screen a hypnotic kaleidoscope of brackets and semicolons. We _love_ solving problems with code. So much so, that we sometimes forget... well, everything else. Especially writing.
 
-<img src="/assets/images/typewriter.png">
+<img src="/assets/images/typewriter.jpg">
 
 For a long time, writing felt like that annoying linter warning you just want to ignore with `// eslint-disable-next-line`. "Why should I write down what I'm doing? The code is the ultimate truth! Comments are for newbies, and nobody reads docs anyway!" Sound familiar? I was fully bought into the "code-is-self-documenting" cult. Spoiler alert: It wasn't. And that cost me time. A lot of time.
 
@@ -57,7 +57,7 @@ Our brain is amazing, but it's not a multi-core marvel with infinite RAM when it
 
 Writing it down is like a `git commit` for your thoughts. As soon as you've written down an idea, a plan, or a problem to the point where you know you can pick up the thread later, your brain can let go. It trusts that the information is safe. That frees up space! It's like closing 50 browser tabs because you know the links are saved in your bookmarks. Written thoughts free up your head and make you ready for the next challenge – or at least for a more restful sleep.
 
-<img src="/assets/images/busy-minded-human.png">
+<img src="/assets/images/busy-minded-human.jpg">
 
 ## From Thought-Chaos to Concept-Canvas
 
@@ -67,7 +67,7 @@ You define the basic structures. You give the idea form. And suddenly, you see n
 
 ---
 
-<img src="/assets/images/keys-not-just-for-coding.png">
+<img src="/assets/images/keys-not-just-for-coding.jpg">
 
 For me, writing has transformed from an annoying chore into an indispensable superpower. It creates **Clarity**, saves **Time**, improves **Collaboration**, frees up **Mental Space**, and acts as a catalyst for **Ideas**.
 
