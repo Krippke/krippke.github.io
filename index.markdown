@@ -4,5 +4,3 @@
 
 layout: posts
 ---
-
-I'm a software developer and tech lead writing about the things I've learned building software over the past 15+ years — architecture, clear responsibilities, and what makes developers truly effective beyond code.
