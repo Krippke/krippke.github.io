@@ -61,6 +61,14 @@ permalink: /:year/:month/:day/:title/
 #   - vendor/gems/
 #   - vendor/ruby/
 
+author:
+  name: "Manuel Holzrichter"
+  bio: "Software developer with 15+ years of experience. Curious about everything in tech."
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/Krippke"
+
 name: Manuel Holzrichter
 teaser: /assets/images/500x300.png
 defaults:
