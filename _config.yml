@@ -33,6 +33,7 @@ url: "https://www.manuel-holzrichter.de"
 github_username: Krippke
 
 # Build settings
+minimal_mistakes_skin: "default"
 remote_theme: mmistakes/minimal-mistakes@4.24.0
 #theme: minimal-mistakes-jekyll
 plugins:
@@ -90,5 +91,8 @@ defaults:
     values:
       layout: single
       author_profile: true
+
+footer_scripts:
+  - /assets/js/dark-mode-toggle.js
 
 include: ["_pages"]

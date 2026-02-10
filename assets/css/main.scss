@@ -1,0 +1,28 @@
+---
+---
+
+@charset "utf-8";
+
+@import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}";
+@import "minimal-mistakes";
+
+.theme-toggle {
+  display: inline-block;
+  padding: 0 0.5em;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: $masthead-link-color;
+  font-size: 1em;
+  line-height: $nav-height;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $masthead-link-color-hover;
+  }
+
+  &:focus {
+    outline: 2px solid $primary-color;
+    outline-offset: -2px;
+  }
+}
