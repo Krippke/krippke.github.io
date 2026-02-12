@@ -1,28 +1,9 @@
 <!-- start custom head snippets -->
 
-<!-- insert favicons. use https://realfavicongenerator.net/ -->
-
 <link rel="icon" type="image/png" href="/assets/favicon-96x96.png" sizes="96x96" />
 <link rel="shortcut icon" href="/assets/favicon.ico" />
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
 <meta name="apple-mobile-web-app-title" content="Manuel Holzrichter" />
 <link rel="manifest" href="/assets/site.webmanifest" />
-
-<link rel="stylesheet alternate" href="{{ '/assets/css/dark.css' | relative_url }}" id="dark-theme">
-
-<script>
-  (function() {
-    var saved = localStorage.getItem('theme');
-    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (saved === 'dark' || (!saved && prefersDark)) {
-      var main = document.querySelector('link[href*="main.css"]');
-      var dark = document.getElementById('dark-theme');
-      if (main && dark) {
-        main.setAttribute('rel', 'stylesheet alternate');
-        dark.setAttribute('rel', 'stylesheet');
-      }
-    }
-  })();
-</script>
 
 <!-- end custom head snippets -->

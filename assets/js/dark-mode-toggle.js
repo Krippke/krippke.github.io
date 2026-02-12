@@ -11,22 +11,11 @@
   }
 
   function applyTheme(theme) {
-    var mainLink = document.querySelector('link[href*="main.css"]');
-    var darkLink = document.getElementById("dark-theme");
-    if (!mainLink || !darkLink) return;
-
     if (theme === DARK) {
-      darkLink.setAttribute("rel", "stylesheet");
-      setTimeout(function () {
-        mainLink.setAttribute("rel", "stylesheet alternate");
-      }, 10);
+      document.documentElement.classList.add("dark");
     } else {
-      mainLink.setAttribute("rel", "stylesheet");
-      setTimeout(function () {
-        darkLink.setAttribute("rel", "stylesheet alternate");
-      }, 10);
+      document.documentElement.classList.remove("dark");
     }
-
     localStorage.setItem("theme", theme);
   }
 
