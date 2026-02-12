@@ -4,6 +4,8 @@ layout: single
 title: "Migrating from Monolith to Micro Frontends: A Step-by-Step Guide - Part 1"
 date: 2026-02-08 12:00:00 +0100
 author: "Manuel Holzrichter"
+header:
+  teaser: /assets/images/transforming-monolith.jpg
 tags:
   [
     micro frontends,
