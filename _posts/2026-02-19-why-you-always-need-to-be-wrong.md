@@ -2,8 +2,8 @@
 layout: single
 
 title: "Why you always need to be wrong"
-date: 2026-02-18 12:00:00 +0100
-last_modified_at: 2026-02-18T12:00:00+01:00
+date: 2026-02-19 12:00:00 +0100
+last_modified_at: 2026-02-19T12:00:00+01:00
 author: "Manuel Holzrichter"
 header:
   teaser: /assets/images/always-wrong.jpg
