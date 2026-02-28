@@ -29,6 +29,7 @@ description: >-
 #  Welcome to Manuel's digital space—where innovation and code intersect. 📧✨
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://www.manuel-holzrichter.de"
+repository: Krippke/krippke.github.io
 #twitter_username: jekyllrb
 github_username: Krippke
 
