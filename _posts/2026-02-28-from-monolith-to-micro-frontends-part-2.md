@@ -2,7 +2,8 @@
 layout: single
 
 title: "Micro Frontends with Import Maps: The Lightweight Alternative to Module Federation - Part 2"
-date: 2026-02-08 12:00:00 +0100
+date: 2026-02-28 12:00:00 +0100
+last_modified_at: 2026-02-28T12:00:00+01:00
 author: "Manuel Holzrichter"
 header:
   teaser: /assets/images/transit-map.jpg
