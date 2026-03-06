@@ -2,11 +2,11 @@
 layout: single
 
 title: "Why your software project is behind schedule (and over budget)"
-date: 2026-02-17 12:00:00 +0100
-last_modified_at: 2026-02-17T12:00:00+01:00
+date: 2026-03-06 12:00:00 +0100
+last_modified_at: 2026-03-06T12:00:00+01:00
 author: "Manuel Holzrichter"
 header:
-  teaser: /assets/images/placeholder.jpg
+  teaser: /assets/images/domino.jpg
 tags:
   [
     software development,
