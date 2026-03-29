@@ -1,15 +1,23 @@
 ---
 layout: single
-
-title: "Foreign systems will change — here's how to be ready"
-date: 2024-01-11 11:51:49 +0100
+title: "Foreign systems will change - here's how to be ready"
+date: 2026-03-29 09:00:00 +0100
+author: "Manuel Holzrichter"
 header:
-  teaser: /assets/images/typewriter.jpg
+  teaser: /assets/images/two-languages.jpg
+tags:
+  [
+    software-architecture,
+    hexagonal-architecture,
+    integration,
+    adapters,
+    clean-code,
+  ]
 ---
 
-Friday afternoon, 4:47 PM. A payment provider rolls out a "minor" API update. No one notices. Monday morning, the first customer complaints come in. Orders are failing at checkout. The on-call developer starts digging. The payment provider changed the structure of their response — a nested object that used to be flat, a field renamed from `transaction_id` to `txn_id`. Small stuff. But the old structure had leaked into fourteen files across three services. Domain logic, validation rules, even email templates referenced the provider's field names directly. The fix took three days. Not because the change was complex. But because the foreign system had spread everywhere.
+Friday afternoon, 4:47 PM. A payment provider rolls out a "minor" API update. No one notices. Monday morning, the first customer complaints come in. Orders are failing at checkout. The on-call developer starts digging. The payment provider changed the structure of their response - a nested object that used to be flat, a field renamed from `transaction_id` to `txn_id`. Small stuff. But the old structure had leaked into fourteen files across three services. Domain logic, validation rules, even email templates referenced the provider's field names directly. The fix took three days. The change itself was simple. But the foreign system had spread everywhere.
 
-I have seen this pattern more times than I care to count. A team integrates an external system, uses its data structures directly in their domain code, and everything works fine — until the external system changes. Then comes the scramble.
+I have seen this pattern more times than I care to count. A team integrates an external system, uses its data structures directly in their domain code. Everything works fine until the external system changes. Then comes the scramble.
 
 The technical term for this is coupling. But I think there is a more useful way to look at it. Foreign systems speak a different language than your application. When you let that language leak into your domain, you pollute the one place in your codebase that should be crystal clear: the model of your business.
 
@@ -17,25 +25,21 @@ The technical term for this is coupling. But I think there is a more useful way 
 
 Every foreign system comes with its own vocabulary. A payment provider talks about `charges`, `intents`, and `disputes`. A shipping service talks about `parcels`, `carriers`, and `tracking_events`. Your domain might just need to know that an order was paid and a package is on its way.
 
-When you use the foreign system's structures directly in your domain code, three things happen.
+When you use the foreign system's structures directly in your domain code, your domain becomes foggy. Developers reading the code have to understand not just the business logic, but also the vocabulary of every external system you integrate with. Concepts that should be self-explanatory get cluttered with foreign terms. This is conceptual debt, and it builds up without anyone noticing.
 
-First, your domain becomes foggy. Developers reading the code have to understand not just the business logic, but also the vocabulary of every external system you happen to integrate with. Concepts that should be clear and self-explanatory become cluttered with foreign terms. This is conceptual debt, and it accumulates silently.
-
-Second, changes in the foreign system ripple through your codebase. A renamed field, a restructured response, a deprecated endpoint — any of these can force changes in domain logic that had nothing to do with the external system's decision to evolve.
-
-Third, detecting incompatibilities becomes a nightmare. When a foreign system changes and your application breaks, the operations team is left guessing. Was it the payment provider? The shipping service? Which endpoint? Which field? Without clear boundaries, troubleshooting turns into archaeology.
+On top of that, changes in the foreign system ripple through your codebase. A renamed field, a restructured response, a deprecated endpoint - any of these can force changes in domain logic that had nothing to do with the external system's decision to evolve. And when something does break, the operations team is left guessing. Was it the payment provider? The shipping service? Which endpoint? Which field? Without clear boundaries, troubleshooting turns into archaeology.
 
 ## The solution: ports, adapters, and wrappers
 
-The approach I use draws from hexagonal architecture, but adds a practical layer that makes foreign systems manageable in day-to-day development. It consists of four building blocks:
+The approach I use draws from hexagonal architecture, but adds a practical layer for dealing with foreign systems in day-to-day development. Four building blocks:
 
-**Port** — an interface that defines what your application needs, in your application's language. The port knows nothing about the foreign system.
+**Port**: an interface that defines what your application needs, in your application's language. The port knows nothing about the foreign system.
 
-**Wrapper** — a small class responsible for a single capability of the foreign system. One endpoint, one wrapper.
+**Wrapper**: a small class responsible for a single capability of the foreign system. One endpoint, one wrapper.
 
-**Adapter** — the translation layer. It implements the port by orchestrating wrappers and mapping foreign concepts to domain concepts.
+**Adapter**: the translation layer. It implements the port by orchestrating wrappers and mapping foreign concepts to domain concepts.
 
-**Smoke tests and an APITester** — verification tools that keep the connection honest.
+**Smoke tests and an APITester**: verification tools that keep the connection honest.
 
 Let me walk through each of these with a concrete example. Say your application needs to process payments, and you integrate with a provider called PayCorp.
 
@@ -58,7 +62,7 @@ class PaymentGateway(ABC):
         ...
 ```
 
-`Money`, `PaymentResult`, `PaymentStatus`, `RefundResult` — these are all your domain's types. Your business logic depends on this interface and nothing else. If you swap PayCorp for a different provider tomorrow, the domain code does not change. Only the adapter does.
+`Money`, `PaymentResult`, `PaymentStatus`, `RefundResult` - these are all your domain's types. Your business logic depends on this interface and nothing else. If you swap PayCorp for a different provider tomorrow, the domain code does not change. Only the adapter does.
 
 ## Wrappers: one endpoint, one class
 
@@ -97,7 +101,7 @@ class GetPayCorpCharge:
 
 Why not combine these into a single `PayCorpClient` class? Because the more responsibilities a component has, the more complex it gets. We want simple, boring, maintainable code. Each wrapper does exactly one thing. You can read it in thirty seconds. You can test it in isolation. You can replace it without touching anything else. When PayCorp changes their charge creation endpoint, you update one wrapper. The rest of the system does not even know it happened.
 
-This might feel like overkill when you first set it up. But the third time a foreign system changes an endpoint and you fix it in a single, obvious place — you will not want to go back.
+This might feel like overkill when you first set it up. But the third time a foreign system changes an endpoint and you fix it in a single, obvious place - you will not want to go back.
 
 ## Adapters: where two worlds meet
 
@@ -139,7 +143,7 @@ class PayCorpPaymentAdapter(PaymentGateway):
         )
 ```
 
-Notice where the foreign concepts live. `txn_id`, `state`, `amount_cents`, `COMPLETED` — all of PayCorp's vocabulary is contained in this adapter. The domain never sees it. If PayCorp renames `txn_id` back to `transaction_id`, you change one line in one adapter method. Your domain code, your tests, your business rules — none of them are affected.
+Notice where the foreign concepts live. `txn_id`, `state`, `amount_cents`, `COMPLETED` - all of PayCorp's vocabulary is contained in this adapter. The domain never sees it. If PayCorp renames `txn_id` back to `transaction_id`, you change one line in one adapter method. Your domain code, your tests, your business rules - none of them are affected.
 
 This is the boundary. On one side, PayCorp's world. On the other, yours. The adapter is the only place where the two meet.
 
@@ -196,21 +200,19 @@ class PayCorpAPITester:
         print("GetCharge: OK")
 ```
 
-Expose this through a CLI command — `check-connectivity` — and operations has a way to verify compatibility on demand. No guessing, no log diving, no waiting for developers to wake up.
+Expose this as a CLI command called `check-connectivity` and operations has a way to verify compatibility on demand. No guessing, no log diving, no waiting for developers to wake up.
 
-Picture this: PayCorp rolls out a breaking change on a Saturday. The monitoring picks up increased error rates. The on-call engineer runs `check-connectivity` and sees:
+Say PayCorp rolls out a breaking change on a Saturday. The monitoring picks up increased error rates. The on-call engineer runs `check-connectivity` and sees:
 
 ```
 CreateCharge: FAILED — Missing txn_id in response
 GetCharge:    OK
 ```
 
-Within seconds, operations knows exactly which capability broke. They can escalate with precise information. They can check whether a workaround exists. They do not need to understand the domain code or the adapter logic. The APITester gives them a clear, honest answer.
+Within seconds, operations knows exactly which capability broke. They can escalate with precise information and check whether a workaround exists, without needing to understand the domain code or the adapter logic. The APITester gives them a clear, honest answer.
 
 ## Draw the line at the adapter
 
-Foreign systems will change. That is not a risk. That is a certainty. New API versions, renamed fields, deprecated endpoints, changed authentication — it will happen, and it will happen on someone else's schedule.
-
-The question is not whether you will deal with it. The question is how deeply you let it into your code before you have to.
+Foreign systems will change. New API versions, renamed fields, deprecated endpoints, changed authentication - all of it will happen on someone else's schedule. The only thing you control is how deeply you let it into your code before you have to deal with it.
 
 Next time you integrate a foreign system, draw the line at the adapter. Let wrappers handle the raw communication. Let the adapter translate. Let your domain stay clean. And give your operations team a way to check whether the world outside your application still speaks the language you expect.
