@@ -2,6 +2,7 @@
 layout: single
 title: "Foreign systems will change - here's how to be ready"
 date: 2026-03-29 09:00:00 +0100
+last_modified_at: 2026-03-29T09:00:00+01:00
 author: "Manuel Holzrichter"
 header:
   teaser: /assets/images/two-languages.jpg
