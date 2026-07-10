@@ -2,6 +2,7 @@
 layout: single
 
 title: "Micro Frontends with Import Maps: The Lightweight Alternative to Module Federation - Part 2"
+excerpt: "Compose micro frontends at runtime with import maps — a lightweight, browser-native alternative to Module Federation. No page reloads, no iframes."
 date: 2026-02-28 12:00:00 +0100
 last_modified_at: 2026-02-28T12:00:00+01:00
 author: "Manuel Holzrichter"

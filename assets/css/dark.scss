@@ -466,6 +466,16 @@ html.dark {
     }
   }
 
+  .entries-grid .archive__item {
+    background: #2b303b;
+    border-color: #51555d;
+
+    &:hover {
+      border-color: #6c717a;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+  }
+
   .theme-toggle {
     color: #eaeaea;
 

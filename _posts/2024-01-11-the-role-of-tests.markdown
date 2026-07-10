@@ -2,6 +2,7 @@
 layout: single
 
 title: "The role of tests"
+excerpt: "How automated tests transformed twelve years of software development — a personal retrospective on quality, confidence, and lessons learned."
 date: 2024-01-11 11:51:49 +0100
 last_modified_at: 2024-01-17T22:37:53+01:00
 header:

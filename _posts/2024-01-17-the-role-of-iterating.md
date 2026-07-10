@@ -2,6 +2,7 @@
 layout: single
 
 title: "The role of iterating"
+excerpt: "Why small, iterative steps beat big-bang delivery: lessons from growing into an agile developer, one short feedback loop at a time."
 date: 2024-01-17 23:07:49 +0100
 last_modified_at: 2024-01-17T23:08:32+01:00
 header:

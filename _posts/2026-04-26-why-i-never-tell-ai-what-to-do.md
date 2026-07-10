@@ -1,6 +1,7 @@
 ---
 layout: single
 title: "Why I never tell AI what to do"
+excerpt: "Stop giving AI instructions. Describing the problem and asking questions first produces better results — the AI knows patterns, you know your context."
 date: 2026-04-26 09:00:00 +0100
 last_modified_at: 2026-04-26T09:00:00+01:00
 author: "Manuel Holzrichter"

@@ -2,6 +2,7 @@
 layout: single
 
 title: "The role of writing"
+excerpt: "Why writing is a developer's most underrated skill — clear prose sharpens thinking, spreads knowledge, and becomes a superpower in the age of LLMs."
 date: 2025-05-05 13:48:49 +0100
 last_modified_at: 2025-05-05T20:13:47+02:00
 header:

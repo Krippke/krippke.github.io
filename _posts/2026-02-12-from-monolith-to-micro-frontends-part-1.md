@@ -2,6 +2,7 @@
 layout: single
 
 title: "Migrating from Monolith to Micro Frontends: A Step-by-Step Guide - Part 1"
+excerpt: "A step-by-step guide to migrating a frontend monolith to micro frontends: extract a shared kernel, then split the first module into a standalone SPA."
 date: 2026-02-12 12:00:00 +0100
 last_modified_at: 2026-02-12T12:00:00+01:00
 author: "Manuel Holzrichter"

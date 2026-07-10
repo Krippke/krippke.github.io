@@ -2,6 +2,7 @@
 layout: single
 
 title: "Why your software project is behind schedule (and over budget)"
+excerpt: "Software projects rarely fail on technical work. They fail on long feedback loops, unvalidated trust, and gut-feeling estimates — all three fixable."
 date: 2026-03-06 12:00:00 +0100
 last_modified_at: 2026-03-06T12:00:00+01:00
 author: "Manuel Holzrichter"

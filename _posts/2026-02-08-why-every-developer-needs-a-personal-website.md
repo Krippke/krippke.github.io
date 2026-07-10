@@ -2,6 +2,7 @@
 layout: single
 
 title: "Why every developer needs a personal website"
+excerpt: "Why every developer should build a personal website: practice explaining technical work to non-technical people, own your content, grow your career."
 date: 2026-02-08 12:00:00 +0100
 last_modified_at: 2026-02-08T22:52:58+01:00
 header:

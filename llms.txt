@@ -1,0 +1,23 @@
+# Manuel Holzrichter
+
+> Personal blog of Manuel Holzrichter, a software developer with over 15 years of professional experience across industry and government projects. Covers pragmatic software engineering: software architecture, automated testing, developer effectiveness, and working with AI.
+
+The site is a static Jekyll blog at https://www.manuel-holzrichter.de. All posts are written by Manuel Holzrichter. A full-content Atom feed is available at https://www.manuel-holzrichter.de/feed.xml.
+
+## Posts
+
+- [Why I never tell AI what to do](https://www.manuel-holzrichter.de/2026/04/26/why-i-never-tell-ai-what-to-do/): Stop giving AI instructions. Describing the problem and asking questions first produces better results — the AI knows patterns, you know your context.
+- [Foreign systems will change - here's how to be ready](https://www.manuel-holzrichter.de/2026/03/29/foreign-systems-will-change-heres-how-to-be-ready/): External APIs will change without warning. How adapters and hexagonal architecture keep foreign systems at the boundary of your codebase.
+- [Why your software project is behind schedule (and over budget)](https://www.manuel-holzrichter.de/2026/03/06/why-software-projects-are-behind-schedule-and-over-budget/): Software projects rarely fail on technical work. They fail on long feedback loops, unvalidated trust, and gut-feeling estimates — all three fixable.
+- [Micro Frontends with Import Maps: The Lightweight Alternative to Module Federation - Part 2](https://www.manuel-holzrichter.de/2026/02/28/from-monolith-to-micro-frontends-part-2/): Compose micro frontends at runtime with import maps — a lightweight, browser-native alternative to Module Federation.
+- [Why you always need to be wrong](https://www.manuel-holzrichter.de/2026/02/19/why-you-always-need-to-be-wrong/): Assume you are wrong by default: why verification built into your workflow beats confidence, and how short feedback loops catch what you cannot see.
+- [Migrating from Monolith to Micro Frontends: A Step-by-Step Guide - Part 1](https://www.manuel-holzrichter.de/2026/02/12/from-monolith-to-micro-frontends-part-1/): A step-by-step guide to migrating a frontend monolith to micro frontends: extract a shared kernel, then split the first module into a standalone SPA.
+- [Why every developer needs a personal website](https://www.manuel-holzrichter.de/2026/02/08/why-every-developer-needs-a-personal-website/): Why every developer should build a personal website: practice explaining technical work to non-technical people, own your content, grow your career.
+- [The role of writing](https://www.manuel-holzrichter.de/2025/05/05/the-role-of-writing/): Why writing is a developer's most underrated skill — clear prose sharpens thinking, spreads knowledge, and becomes a superpower in the age of LLMs.
+- [The role of iterating](https://www.manuel-holzrichter.de/2024/01/17/the-role-of-iterating/): Why small, iterative steps beat big-bang delivery: lessons from growing into an agile developer, one short feedback loop at a time.
+- [The role of tests](https://www.manuel-holzrichter.de/2024/01/11/the-role-of-tests/): How automated tests transformed twelve years of software development — a personal retrospective on quality, confidence, and lessons learned.
+
+## Pages
+
+- [About](https://www.manuel-holzrichter.de/about): Who Manuel Holzrichter is and what this blog covers.
+- [Contact](https://www.manuel-holzrichter.de/contact): How to get in touch.

@@ -45,6 +45,12 @@ plugins:
 
 permalink: /:year/:month/:day/:title/
 
+search: true
+
+tag_archive:
+  type: liquid
+  path: /tags/
+
 paginate: 6
 paginate_path: /page:num/
 # Exclude from processing.
@@ -77,6 +83,13 @@ author:
 
 name: Manuel Holzrichter
 teaser: /assets/images/personal-website.jpg
+og_image: /assets/images/personal-website.jpg
+
+social:
+  type: Person
+  name: Manuel Holzrichter
+  links:
+    - "https://github.com/Krippke"
 defaults:
   # _posts
   - scope:
@@ -98,6 +111,7 @@ defaults:
       author_profile: true
 
 footer_scripts:
+  - /assets/js/main.min.js
   - /assets/js/dark-mode-toggle.js
 
 include: ["_pages"]
