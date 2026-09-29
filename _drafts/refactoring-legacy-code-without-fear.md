@@ -6,13 +6,7 @@ author: "Manuel Holzrichter"
 header:
   teaser: /assets/images/keys-not-just-for-coding.jpg
 tags:
-  [
-    legacy-code,
-    refactoring,
-    testing,
-    characterization-tests,
-    maintainability,
-  ]
+  [legacy-code, refactoring, testing, characterization-tests, maintainability]
 ---
 
 This post is part of the series [The hidden cost of unmaintainable code](TODO-link). The series follows a new developer through a small change in an online shop: "Orders placed in December can be returned until January 31." This part is about the first thing they do, before touching any feature code.
@@ -39,7 +33,7 @@ I have written about this before in [The role of tests](https://www.manuel-holzr
 
 In a legacy system, that definition does not exist. The behaviour exists, somewhere in 1,400 lines, but nobody wrote down what it is supposed to be. So the first goal is not to improve anything. The first goal is to turn the existing behaviour into tests, with as few changes to the code as possible.
 
-Michael Feathers calls these *characterization tests* in *Working Effectively with Legacy Code*. You do not write down what the code should do. You write down what it actually does.
+Michael Feathers calls these _characterization tests_ in _Working Effectively with Legacy Code_. You do not write down what the code should do. You write down what it actually does.
 
 ## Any definition is better than no definition
 
@@ -53,32 +47,31 @@ What matters is that the behaviour is written down as an automated test. A wrong
 
 Here is the return logic the developer finds:
 
-```python
-class OrderService:
-    def __init__(self, db, mailer, pdf_renderer):
-        self.db = db
-        self.mailer = mailer
-        self.pdf_renderer = pdf_renderer
+```kotlin
+@Service
+class OrderService(
+    private val jdbc: JdbcTemplate,
+    private val mailer: Mailer,
+    private val pdfRenderer: PdfRenderer,
+) {
+    fun requestReturn(orderId: Long) {
+        val order = jdbc.queryForObject("SELECT * FROM orders WHERE id = ?", OrderRowMapper(), orderId)
+        if (order.status != 4) throw IllegalStateException("Order not delivered")
+        if (!withinDeadline(order)) throw IllegalStateException("Too late")
+        jdbc.update("UPDATE orders SET status = 7 WHERE id = ?", orderId)
+        mailer.send(order.customerEmail, "Your return", renderReturnLabel(order))
+    }
 
-    def request_return(self, order_id):
-        row = self.db.execute("SELECT * FROM orders WHERE id = %s", (order_id,)).fetchone()
-        order = Order.from_row(row)
-        if order.status != 4:
-            raise ValueError("Order not delivered")
-        if not self._within_deadline(order):
-            raise ValueError("Too late")
-        self.db.execute("UPDATE orders SET status = 7 WHERE id = %s", (order_id,))
-        self.mailer.send(order.customer_email, "Your return", render_return_label(order))
-
-    def _within_deadline(self, order):
-        return order.delivered_at + timedelta(days=14) >= datetime.now()
+    private fun withinDeadline(order: Order) =
+        order.deliveredAt!!.plusDays(14) >= LocalDateTime.now()
+}
 ```
 
 To write a single test for "an order can be returned on day 14", the developer needs a database with an order row, a mailer that does not send real emails, a PDF renderer and control over the current time.
 
 This is the moment where I constantly weigh two things against each other: how much do I change the structure of the code, and how complex do I allow my test setup to become?
 
-The tempting path is to leave the code as it is and build the setup: a test database, a mocked mailer, a library that freezes `datetime.now()`. It works. But the tests are now tied to every detail of the current structure. Every refactoring later breaks them. And the setup hides the actual problem: this code has too many dependencies.
+The tempting path is to leave the code as it is and build the setup: a test database, a mocked mailer, a static mock that freezes `LocalDateTime.now()`. It works. But the tests are now tied to every detail of the current structure. Every refactoring later breaks them. And the setup hides the actual problem: this code has too many dependencies.
 
 I rarely compromise here. Compromises take their revenge sooner than you think.
 
@@ -88,49 +81,54 @@ Refactoring without tests is risky. So the first refactorings have to be small, 
 
 The first step is to pull the decision out of the service, into a function that only depends on its inputs:
 
-```python
-def within_return_deadline(order: Order, now: datetime) -> bool:
-    return order.delivered_at + timedelta(days=14) >= now
+```kotlin
+fun withinReturnDeadline(order: Order, now: LocalDateTime): Boolean =
+    order.deliveredAt!!.plusDays(14) >= now
 ```
 
 The second step is to stop reading the clock inside the service. The service gets a `Clock` passed in, and production code uses a `SystemClock`:
 
-```python
-class OrderService:
-    def __init__(self, db, mailer, pdf_renderer, clock: Clock):
-        self.db = db
-        self.mailer = mailer
-        self.pdf_renderer = pdf_renderer
-        self.clock = clock
-
-    def request_return(self, order_id):
+```kotlin
+@Service
+class OrderService(
+    private val jdbc: JdbcTemplate,
+    private val mailer: Mailer,
+    private val pdfRenderer: PdfRenderer,
+    private val clock: Clock,
+) {
+    fun requestReturn(orderId: Long) {
         ...
-        if not within_return_deadline(order, self.clock.now()):
-            raise ValueError("Too late")
+        if (!withinReturnDeadline(order, clock.now())) throw IllegalStateException("Too late")
         ...
+    }
+}
 ```
 
 Nothing about the behaviour has changed. But the rule can now be tested without a database, a mailer or a frozen system clock.
 
 ## Tests that tell you something
 
-```python
-def test_order_can_be_returned_14_days_after_delivery():
-    order = an_order(delivered_at=datetime(2026, 3, 1, 16, 0))
+```kotlin
+@Test
+fun `order can be returned 14 days after delivery`() {
+    val order = anOrder(deliveredAt = LocalDateTime.of(2026, 3, 1, 16, 0))
 
-    assert within_return_deadline(order, now=datetime(2026, 3, 15, 15, 59))
+    assertTrue(withinReturnDeadline(order, now = LocalDateTime.of(2026, 3, 15, 15, 59)))
+}
 
+@Test
+fun `order cannot be returned 15 days after delivery`() {
+    val order = anOrder(deliveredAt = LocalDateTime.of(2026, 3, 1, 16, 0))
 
-def test_order_cannot_be_returned_15_days_after_delivery():
-    order = an_order(delivered_at=datetime(2026, 3, 1, 16, 0))
+    assertFalse(withinReturnDeadline(order, now = LocalDateTime.of(2026, 3, 16, 9, 0)))
+}
 
-    assert not within_return_deadline(order, now=datetime(2026, 3, 16, 9, 0))
+@Test
+fun `return deadline ends at the exact delivery time on day 14`() {
+    val order = anOrder(deliveredAt = LocalDateTime.of(2026, 3, 1, 16, 0))
 
-
-def test_return_deadline_ends_at_the_exact_delivery_time_on_day_14():
-    order = an_order(delivered_at=datetime(2026, 3, 1, 16, 0))
-
-    assert not within_return_deadline(order, now=datetime(2026, 3, 15, 16, 1))
+    assertFalse(withinReturnDeadline(order, now = LocalDateTime.of(2026, 3, 15, 16, 1)))
+}
 ```
 
 The third test is the interesting one. While writing it, the developer realised that the deadline is precise to the minute: a customer whose parcel arrived at 4 PM can return it until 4 PM two weeks later, but not at 4:01 PM. Is that intended? Probably not. But it is what the system does today, so it becomes a test with an honest name.
@@ -143,21 +141,21 @@ This is how characterization tests turn into specifications over time.
 
 For the orchestration in `request_return` - load the order, check the rule, update the status, send the email - the developer still needs to replace the database and the mailer in tests.
 
-Faking raw SQL calls is painful and fragile. So instead of faking `self.db`, I move the queries behind an `OrderRepository` with `get` and `save`, and the mail sending behind a `CustomerNotifications` port. Both have simple in-memory implementations for tests. The service stops knowing about SQL and SMTP altogether.
+Faking raw SQL calls is painful and fragile. So instead of mocking the `JdbcTemplate`, I move the queries behind an `OrderRepository` with `get` and `save`, and the mail sending behind a `CustomerNotifications` port. Both have simple in-memory implementations for tests. The service stops knowing about SQL and SMTP altogether.
 
 This is where test coverage and structure start to reinforce each other. The effort to make the code testable is the same effort that gives it a clear domain, an application layer that orchestrates, a persistence layer that only stores and restores state, and a humble UI. The details are in [Responsibilities in the right layer](TODO-link).
 
 ## The notes list
 
-Writing characterization tests forces you to read every branch of the code closely. That is exactly how you understand a legacy system. And while doing it, I keep a list of everything that does not fit the picture.
+Writing characterization tests forces you to read every branch of the code closely. That is exactly how you understand a legacy system. And while doing it, I keep a list of everything that does not fit into my picture.
 
 For the developer in the shop, the list looked like this after two days:
 
 ```
-- "deadline" in _within_deadline means return period. The concept has no name.
+- "deadline" in withinDeadline means return period. The concept has no name.
 - Return period is also computed in the frontend (from order date!) and in the customer service report (UTC).
 - Confirmation email hard-codes "within 14 days".
-- _within_deadline is also used for payment reminders. Same number, different rule?
+- withinDeadline is also used for payment reminders. Same number, different rule?
 - status == 4 means delivered, status == 7 means return requested. No enum.
 - Return deadline precise to the minute. Confirmed: should be whole days.
 ```
@@ -171,7 +169,7 @@ Every line on this list is a symptom of a structural problem. Or put differently
 
 ## Where it gets hard
 
-**You cannot always start small.** Some code is so entangled that even extracting a function feels dangerous. In that case, I start with a coarse safety net at the outermost boundary: record the responses of the existing system for a set of real inputs and compare against them after every change. This is known as *approval testing* or *golden master testing*. It is not a specification, but it is a net, and it can be removed once the finer tests exist.
+**You cannot always start small.** Some code is so entangled that even extracting a function feels dangerous. In that case, I start with a coarse safety net at the outermost boundary: record the responses of the existing system for a set of real inputs and compare against them after every change. This is known as _approval testing_ or _golden master testing_. It is not a specification, but it is a net, and it can be removed once the finer tests exist.
 
 **Characterization tests encode bugs.** They pin down what the system does, including what it does wrong. That is intended. Name those tests honestly, mark them as questions and take them to the people who know. The bug is now visible instead of hidden.
 

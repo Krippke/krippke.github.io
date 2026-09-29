@@ -19,24 +19,25 @@ This post is the last part of the series [The hidden cost of unmaintainable code
 
 While consolidating the return period, the developer keeps finding it in places where it has no business being. The API builds a ready-made sentence for the shop:
 
-```python
-"return_hint": f"Return until {order.delivered_at + timedelta(days=14):%d.%m.%Y}",
-"return_hint_color": "red" if (order.delivered_at + timedelta(days=14) - datetime.now()).days <= 3 else "grey",
+```kotlin
+returnHint = "Return until ${order.deliveredAt!!.plusDays(14).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))}",
+returnHintColor = if (ChronoUnit.DAYS.between(LocalDateTime.now(), order.deliveredAt!!.plusDays(14)) <= 3) "red" else "grey",
 ```
 
-The customer service report has the rule in its `WHERE` clause. And the `Order` class is an ORM model that also contains business logic and reads the system clock:
+The customer service report has the rule in its `WHERE` clause. And the `Order` class is a JPA entity that also contains business logic and reads the system clock:
 
-```python
-class Order(Base):
-    __tablename__ = "orders"
-
-    id = Column(Integer, primary_key=True)
-    status = Column(Integer)
-    ordered_at = Column(DateTime)
-    delivered_at = Column(DateTime)
-
-    def is_returnable(self):
-        return self.status == 4 and self.delivered_at + timedelta(days=14) >= datetime.now()
+```kotlin
+@Entity
+@Table(name = "orders")
+class Order(
+    @Id val id: Long,
+    var status: Int,
+    var orderedAt: LocalDateTime,
+    var deliveredAt: LocalDateTime?,
+) {
+    fun isReturnable() =
+        status == 4 && deliveredAt!!.plusDays(14) >= LocalDateTime.now()
+}
 ```
 
 Every one of these works. And every one of them is a place where a change to the return period has to be made, tested and deployed, even though the UI, the database and the ORM should not care about return periods at all.
@@ -47,7 +48,7 @@ When a responsibility sits on the wrong layer, two things happen.
 
 First, changes spread. A business rule in the SQL means a business change needs a database change. A date format in the backend means a design change needs a backend deployment. Layers that should be independent get pulled into every change.
 
-Second, the code gets harder to understand. To know how the return period works, the developer has to read Python, SQL, JavaScript and an email template. To test it, they need a database and a frozen system clock. The cognitive load of a simple rule is spread across the entire stack.
+Second, the code gets harder to understand. To know how the return period works, the developer has to read Kotlin, SQL, JavaScript and an email template. To test it, they need a database and a frozen system clock. The cognitive load of a simple rule is spread across the entire stack.
 
 The idea behind layering is simple: every layer has one kind of responsibility, and only that one.
 
@@ -64,9 +65,9 @@ The API above does two jobs that belong to the UI: formatting a date and choosin
 
 After the refactoring, the API delivers facts, not presentation:
 
-```python
-"return_period_ends_on": order.return_period.ends_on.isoformat(),
-"return_period_ends_soon": order.return_period.ends_soon(today),
+```kotlin
+returnPeriodEndsOn = order.returnPeriod?.endsOn,
+returnPeriodEndsSoon = order.returnPeriod?.endsSoon(today) ?: false,
 ```
 
 And the frontend decides how to show them:
@@ -98,22 +99,25 @@ This is a business rule written in SQL. When the December rule comes, someone ha
 
 The fix is to let the domain make the decision once, and let persistence store the result. The return policy is applied when the order is delivered:
 
-```python
-def mark_delivered(self, on: date, return_policy: ReturnPolicy):
-    self.status = OrderStatus.DELIVERED
-    self.delivered_on = on
-    self.return_period = return_policy.return_period_for(self)
+```kotlin
+fun markDelivered(on: LocalDate, returnPolicy: ReturnPolicy) {
+    status = OrderStatus.DELIVERED
+    deliveredOn = on
+    returnPeriod = returnPolicy.returnPeriodFor(orderedOn, deliveredOn = on)
+}
 ```
 
 The repository stores the end of the return period as a column, like any other state:
 
-```python
-class PostgresOrderRepository(OrderRepository):
-    def save(self, order: Order):
-        self.connection.execute(
-            "UPDATE orders SET status = %s, delivered_on = %s, return_period_ends_on = %s WHERE id = %s",
-            (order.status.name, order.delivered_on, order.return_period.ends_on, order.id),
+```kotlin
+class PostgresOrderRepository(private val jdbc: JdbcTemplate) : OrderRepository {
+    override fun save(order: Order) {
+        jdbc.update(
+            "UPDATE orders SET status = ?, delivered_on = ?, return_period_ends_on = ? WHERE id = ?",
+            order.status.name, order.deliveredOn, order.returnPeriod?.endsOn, order.id,
         )
+    }
+}
 ```
 
 And the report no longer knows any rule. It filters on state:
@@ -121,87 +125,93 @@ And the report no longer knows any rule. It filters on state:
 ```sql
 SELECT id, customer_name, return_period_ends_on FROM orders
 WHERE status = 'DELIVERED'
-  AND return_period_ends_on >= %(today)s;
+  AND return_period_ends_on >= :today;
 ```
 
 The query is fast, it is simple, and it can never disagree with the domain again, because it does not decide anything.
 
 ## The domain: free of technical details
 
-The ORM model mixed three things: the database mapping, the business rule and the system clock. That makes the rule hard to test and ties the business logic to a specific framework.
+The JPA entity mixed three things: the database mapping, the business rule and the system clock. That makes the rule hard to test and ties the business logic to a specific framework.
 
-After the refactoring, the domain is plain Python:
+After the refactoring, the domain is plain Kotlin:
 
-```python
-@dataclass
-class Order:
-    id: int
-    ordered_on: date
-    status: OrderStatus
-    delivered_on: date | None = None
-    return_period: ReturnPeriod | None = None
+```kotlin
+class Order(
+    val id: Long,
+    val orderedOn: LocalDate,
+    status: OrderStatus,
+    deliveredOn: LocalDate? = null,
+    returnPeriod: ReturnPeriod? = null,
+) {
+    var status = status
+        private set
+    var deliveredOn = deliveredOn
+        private set
+    var returnPeriod = returnPeriod
+        private set
 
-    def mark_delivered(self, on: date, return_policy: ReturnPolicy):
-        self.status = OrderStatus.DELIVERED
-        self.delivered_on = on
-        self.return_period = return_policy.return_period_for(self)
+    fun markDelivered(on: LocalDate, returnPolicy: ReturnPolicy) {
+        status = OrderStatus.DELIVERED
+        deliveredOn = on
+        returnPeriod = returnPolicy.returnPeriodFor(orderedOn, deliveredOn = on)
+    }
 
-    def request_return(self, today: date):
-        if not self.is_delivered():
-            raise OrderNotDelivered(self.id)
-        if not self.return_period.allows_return_on(today):
-            raise ReturnPeriodExpired(self.return_period)
-        self.status = OrderStatus.RETURN_REQUESTED
+    fun requestReturn(today: LocalDate) {
+        val period = returnPeriod
+        if (!isDelivered() || period == null) throw OrderNotDelivered(id)
+        if (!period.allowsReturnOn(today)) throw ReturnPeriodExpired(period)
+        status = OrderStatus.RETURN_REQUESTED
+    }
 
-    def is_delivered(self) -> bool:
-        return self.status == OrderStatus.DELIVERED
+    fun isDelivered(): Boolean = status == OrderStatus.DELIVERED
+}
 ```
 
-No ORM, no database, no `datetime.now()`. The current day is passed in. The mapping between the database row and the domain object lives in the repository, where it belongs.
+No JPA annotations, no database, no `LocalDateTime.now()`. The current day is passed in. The mapping between the database row and the domain object lives in the repository, where it belongs.
 
 The domain tests need nothing but the domain:
 
-```python
-def test_return_is_rejected_after_the_return_period_has_ended():
-    order = a_delivered_order(return_period=ReturnPeriod(ends_on=date(2026, 3, 15)))
+```kotlin
+@Test
+fun `return is rejected after the return period has ended`() {
+    val order = aDeliveredOrder(returnPeriod = ReturnPeriod(endsOn = LocalDate.of(2026, 3, 15)))
 
-    with pytest.raises(ReturnPeriodExpired):
-        order.request_return(today=date(2026, 3, 16))
+    assertFailsWith<ReturnPeriodExpired> {
+        order.requestReturn(today = LocalDate.of(2026, 3, 16))
+    }
+}
 ```
 
 ## The application layer: orchestrate and decouple
 
 Someone has to load the order, ask the clock for today, let the domain decide, save the result and notify the customer. That is the job of the application layer:
 
-```python
-class RequestReturn:
-    def __init__(self, orders: OrderRepository, clock: Clock, notifications: CustomerNotifications):
-        self.orders = orders
-        self.clock = clock
-        self.notifications = notifications
-
-    def execute(self, order_id: int):
-        order = self.orders.get(order_id)
-        order.request_return(today=self.clock.today())
-        self.orders.save(order)
-        self.notifications.return_confirmed(order)
+```kotlin
+class RequestReturn(
+    private val orders: OrderRepository,
+    private val clock: Clock,
+    private val notifications: CustomerNotifications,
+) {
+    fun execute(orderId: Long) {
+        val order = orders.get(orderId)
+        order.requestReturn(today = clock.today())
+        orders.save(order)
+        notifications.returnConfirmed(order)
+    }
+}
 ```
 
 `OrderRepository`, `Clock` and `CustomerNotifications` are ports: interfaces written in the language of the application. The implementations are adapters on the outside. The clock is a good example of how small such a port can be:
 
-```python
-class Clock(ABC):
-    @abstractmethod
-    def today(self) -> date:
-        ...
+```kotlin
+interface Clock {
+    fun today(): LocalDate
+}
 
-
-class SystemClock(Clock):
-    def __init__(self, timezone: ZoneInfo):
-        self.timezone = timezone
-
-    def today(self) -> date:
-        return datetime.now(self.timezone).date()
+class SystemClock(private val zone: ZoneId) : Clock {
+    override fun today(): LocalDate = LocalDate.now(zone)
+}
 ```
 
 Remember the question of which time zone the return period uses? Customer service decided: the shop's local time. That decision now lives in exactly one place, the configuration of the `SystemClock`. In tests, a `FixedClock` returns whatever day the test needs.

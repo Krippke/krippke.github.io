@@ -19,11 +19,13 @@ This post is part of the series [The hidden cost of unmaintainable code](TODO-li
 
 The developer has found the method that decides whether a return is still allowed. The change looks straightforward:
 
-```python
-def _within_deadline(self, order):
-    if order.ordered_at.month == 12:
-        return datetime.now() <= datetime(order.ordered_at.year + 1, 1, 31, 23, 59)
-    return order.delivered_at + timedelta(days=14) >= datetime.now()
+```kotlin
+private fun withinDeadline(order: Order): Boolean {
+    if (order.orderedAt.monthValue == 12) {
+        return LocalDateTime.now() <= LocalDateTime.of(order.orderedAt.year + 1, 1, 31, 23, 59)
+    }
+    return order.deliveredAt!!.plusDays(14) >= LocalDateTime.now()
+}
 ```
 
 The return tests pass. The change is reviewed, merged and deployed.
@@ -32,20 +34,23 @@ The next morning, someone from accounting asks why no payment reminders went out
 
 ## The shared helper
 
-The developer searches for `_within_deadline` and finds a second caller, in the same class:
+The developer searches for `withinDeadline` and finds a second caller, in the same class:
 
-```python
-def send_payment_reminders(self):
-    rows = self.db.execute(
-        "SELECT * FROM orders WHERE payment_method = 'invoice' AND paid_at IS NULL AND status = 4"
-    ).fetchall()
-    for row in rows:
-        order = Order.from_row(row)
-        if not self._within_deadline(order):
-            self.mailer.send(order.customer_email, "Payment reminder", render_reminder(order))
+```kotlin
+fun sendPaymentReminders() {
+    val orders = jdbc.query(
+        "SELECT * FROM orders WHERE payment_method = 'invoice' AND paid_at IS NULL AND status = 4",
+        OrderRowMapper(),
+    )
+    for (order in orders) {
+        if (!withinDeadline(order)) {
+            mailer.send(order.customerEmail, "Payment reminder", renderReminder(order))
+        }
+    }
+}
 ```
 
-Customers who buy on invoice have to pay within 14 days of delivery. Somebody noticed that `_within_deadline` already calculated "14 days after delivery" and reused it. It worked for years. Until the return period changed and took the payment term with it.
+Customers who buy on invoice have to pay within 14 days of delivery. Somebody noticed that `withinDeadline` already calculated "14 days after delivery" and reused it. It worked for years. Until the return period changed and took the payment term with it.
 
 Two business rules. One decided by customer service, one by accounting. They shared an implementation because they happened to have the same number, and because they happened to live in the same class.
 
@@ -53,10 +58,10 @@ Two business rules. One decided by customer service, one by accounting. They sha
 
 The shared helper is only the symptom. The real problem is the class it lives in. `OrderService` does all of this:
 
-- `calculate_total` - prices and discounts, changed whenever marketing runs a campaign
-- `request_return` - the return process, owned by customer service
-- `create_invoice` and `send_payment_reminders` - invoicing and dunning, owned by accounting
-- `send_confirmation` - the order confirmation email, worded by marketing
+- `calculateTotal` - prices and discounts, changed whenever marketing runs a campaign
+- `requestReturn` - the return process, owned by customer service
+- `createInvoice` and `sendPaymentReminders` - invoicing and dunning, owned by accounting
+- `sendConfirmation` - the order confirmation email, worded by marketing
 
 Four responsibilities, three departments, one class. Every one of them can ask for a change at any time, for their own reasons. And inside one class, sharing is easy and invisible. A private helper here, a shared variable there. Nobody decided to couple the return period to the payment term. It just happened, because it was convenient.
 
@@ -77,56 +82,54 @@ A component with several responsibilities is expensive in ways that are easy to 
 
 The refactoring follows the actors. Each department's rules get their own home, and the payment term becomes a concept of its own, [explicit](TODO-link) and independent from the return period:
 
-```python
-@dataclass(frozen=True)
-class PaymentTerm:
-    due_on: date
+```kotlin
+data class PaymentTerm(val dueOn: LocalDate) {
+    fun isOverdueOn(day: LocalDate): Boolean = day > dueOn
+}
 
-    def is_overdue_on(self, day: date) -> bool:
-        return day > self.due_on
+class InvoicePaymentTerms {
+    fun paymentTermFor(deliveredOn: LocalDate): PaymentTerm =
+        PaymentTerm(dueOn = deliveredOn.plusDays(PAYMENT_DAYS))
 
-
-class InvoicePaymentTerms:
-    PAYMENT_DAYS = 14
-
-    def payment_term_for(self, order: Order) -> PaymentTerm:
-        return PaymentTerm(due_on=order.delivered_on + timedelta(days=self.PAYMENT_DAYS))
+    companion object {
+        const val PAYMENT_DAYS = 14L
+    }
+}
 ```
 
 Sending reminders becomes a use case that only knows what it needs:
 
-```python
-class SendPaymentReminders:
-    def __init__(
-        self,
-        orders: OrderRepository,
-        payment_terms: InvoicePaymentTerms,
-        clock: Clock,
-        notifications: CustomerNotifications,
-    ):
-        self.orders = orders
-        self.payment_terms = payment_terms
-        self.clock = clock
-        self.notifications = notifications
+```kotlin
+data class UnpaidInvoice(val orderId: Long, val customerEmail: String, val deliveredOn: LocalDate)
 
-    def execute(self):
-        today = self.clock.today()
-        for order in self.orders.unpaid_invoice_orders():
-            if self.payment_terms.payment_term_for(order).is_overdue_on(today):
-                self.notifications.payment_overdue(order)
+class SendPaymentReminders(
+    private val orders: OrderRepository,
+    private val paymentTerms: InvoicePaymentTerms,
+    private val clock: Clock,
+    private val notifications: CustomerNotifications,
+) {
+    fun execute() {
+        val today = clock.today()
+        for (invoice in orders.unpaidInvoices()) {
+            if (paymentTerms.paymentTermFor(invoice.deliveredOn).isOverdueOn(today)) {
+                notifications.paymentOverdue(invoice)
+            }
+        }
+    }
+}
 ```
 
 The return process gets the same treatment with `ReturnPeriod`, the return policies and a `RequestReturn` use case. Price calculation and the confirmation email move out as well. What is left of `OrderService` at the end is nothing. It gets deleted.
 
 Now the two rules can change independently. And there is a test that makes sure they stay that way:
 
-```python
-def test_december_orders_are_reminded_14_days_after_delivery():
-    order = an_order(ordered_on=date(2026, 12, 10), delivered_on=date(2026, 12, 12))
+```kotlin
+@Test
+fun `december orders are reminded 14 days after delivery`() {
+    val term = InvoicePaymentTerms().paymentTermFor(deliveredOn = LocalDate.of(2026, 12, 12))
 
-    term = InvoicePaymentTerms().payment_term_for(order)
-
-    assert term.due_on == date(2026, 12, 26)
+    assertEquals(LocalDate.of(2026, 12, 26), term.dueOn)
+}
 ```
 
 This test would have caught the bug before it reached production. And it documents something that was never written down before: the December return rule has nothing to do with when customers have to pay.

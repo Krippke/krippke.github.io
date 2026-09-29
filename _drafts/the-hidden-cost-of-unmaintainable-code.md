@@ -36,8 +36,8 @@ Behind these fears are costs that are harder to see:
 - **Estimates become unreliable.** When nobody knows what a change will touch, every estimate is a guess. Trust between development and business erodes, and the answer is usually more control, more meetings and more buffer.
 - **Knowledge concentrates in a few heads.** Only one or two people understand certain parts of the system. They become the bottleneck, and the risk, when they are sick or leave.
 - **Onboarding takes months instead of weeks.** A new developer cannot learn a system that does not explain itself. They have to learn it from people.
-- **Good developers leave.** Working in a codebase where every change is a fight is exhausting. The people who have options use them.
-- **The costs compound.** Every shortcut makes the next change more expensive. At some point, the interest is so high that there is no capacity left to pay down the debt.
+- **Good developers leave.** Working in a codebase where every change is a fight is exhausting. The people who have offers use them.
+- **The costs compound.** Every shortcut makes the next change more expensive. At some point, the interest is so high that there is no capacity left to pay the debt.
 
 None of this is visible in a sprint report. All of it is visible in how a team feels about its own code.
 
@@ -47,7 +47,7 @@ I have taken over many legacy systems over the years and turned them into codeba
 
 The first step is understanding. What problem does this system solve? What value is it supposed to create? How does it reach that goal, with which concepts? Which actors move through the system, and what is each one responsible for?
 
-If these systems had tests, this would often be an easy task. Tests describe what the system does. But in every legacy system I have worked on, you could hardly speak of test coverage. So the second step is to turn the existing behaviour into tests, with as few changes to the code as possible.
+If these systems had tests, this would often be an easy task. Tests describe how the system should behave. But in every legacy system I have worked on, you could hardly speak of test coverage. So the second step is to turn the existing behaviour into tests, with as few changes to the code as possible.
 
 That is where the first refactorings happen. A component with many dependencies requires an enormous test setup. So I constantly weigh two things against each other: how much do I change the structure of the code, and how complex do I allow my test setup to become? I rarely compromise here. Compromises take their revenge sooner than you think. In practice, this means introducing a clear domain without technical details, an application layer that orchestrates the domain's actors, a persistence layer whose only job is to store and restore state, and a humble UI, cleanly separated from the rest.
 
@@ -69,7 +69,7 @@ Let us go back to the developer and the December ticket, and walk through what t
 
 The developer does not start by changing code. They start by writing a test for the current behaviour: an order delivered on March 1 can be returned on March 15, but not on March 16.
 
-Even that is harder than expected. The return logic lives in an `OrderService` that talks directly to the database, the mail server and a PDF renderer, and reads the current time with `datetime.now()`. Testing one rule means setting up half the system. So the first small refactorings happen before any feature work: the clock is passed in instead of read, the rule is extracted from the database call.
+Even that is harder than expected. The return logic lives in an `OrderService` that talks directly to the database, the mail server and a PDF renderer, and reads the current time with `LocalDateTime.now()`. Testing one rule means setting up half the system. So the first small refactorings happen before any feature work: the clock is passed in instead of read, the rule is extracted from the database call.
 
 The first test may even encode the wrong behaviour. That is fine. Any definition is better than no definition. It will be corrected in conversations with the people who know the business. What matters is that the behaviour is written down as an automated test. Without tests, you have to walk slowly and carefully. With tests, you can run, because you get told the moment you break something.
 
@@ -79,9 +79,9 @@ Deep dive: [Refactoring legacy code without fear](TODO-link)
 
 The developer searches the codebase for "return period". Nothing. The concept the business talks about every day does not exist in the code. What exists is this:
 
-```python
-def _within_deadline(self, order):
-    return order.delivered_at + timedelta(days=14) >= datetime.now()
+```kotlin
+private fun withinDeadline(order: Order) =
+    order.deliveredAt!!.plusDays(14) >= LocalDateTime.now()
 ```
 
 Somebody had to know that "deadline" means return period here, and that `14` is a business decision, not a technical constant. That knowledge lived in the head of the original author. It is gone.
@@ -109,9 +109,9 @@ Deep dive: [One decision, one place](TODO-link)
 
 ## Step 4: The change that broke the invoices
 
-The developer's first attempt was the obvious one: add the December rule to `_within_deadline`. The return tests passed. The next morning, accounting reported that no payment reminders had been sent for December orders.
+The developer's first attempt was the obvious one: add the December rule to `withinDeadline`. The return tests passed. The next morning, accounting reported that no payment reminders had been sent for December orders.
 
-The same `OrderService` also sends payment reminders for customers who buy on invoice. Their payment term happens to be 14 days after delivery as well, so somebody reused `_within_deadline` for it. Two unrelated business rules, owned by two different departments, shared one implementation because they happened to have the same number.
+The same `OrderService` also sends payment reminders for customers who buy on invoice. Their payment term happens to be 14 days after delivery as well, so somebody reused `withinDeadline` for it. Two unrelated business rules, owned by two different departments, shared one implementation because they happened to have the same number.
 
 A component that serves customer service, accounting and marketing at the same time has three reasons to change. Every change for one of them risks breaking the others.
 
@@ -131,25 +131,28 @@ After the refactoring, the return period is a concept in the domain. It is compu
 
 Now the December ticket looks like this:
 
-```python
-class HolidayReturnPolicy:
-    def __init__(self, standard_policy: StandardReturnPolicy):
-        self.standard_policy = standard_policy
-
-    def return_period_for(self, order: Order) -> ReturnPeriod:
-        standard_period = self.standard_policy.return_period_for(order)
-        if order.ordered_on.month != 12:
-            return standard_period
-        return standard_period.extended_to(date(order.ordered_on.year + 1, 1, 31))
+```kotlin
+class HolidayReturnPolicy(private val standardPolicy: ReturnPolicy) : ReturnPolicy {
+    override fun returnPeriodFor(orderedOn: LocalDate, deliveredOn: LocalDate): ReturnPeriod {
+        val standardPeriod = standardPolicy.returnPeriodFor(orderedOn, deliveredOn)
+        if (orderedOn.month != Month.DECEMBER) return standardPeriod
+        return standardPeriod.extendedTo(LocalDate.of(orderedOn.year + 1, 1, 31))
+    }
+}
 ```
 
-```python
-def test_december_orders_can_be_returned_until_january_31():
-    order = an_order(ordered_on=date(2026, 12, 10), delivered_on=date(2026, 12, 12))
+```kotlin
+@Test
+fun `december orders can be returned until january 31`() {
+    val policy = HolidayReturnPolicy(StandardReturnPolicy())
 
-    period = HolidayReturnPolicy(StandardReturnPolicy()).return_period_for(order)
+    val period = policy.returnPeriodFor(
+        orderedOn = LocalDate.of(2026, 12, 10),
+        deliveredOn = LocalDate.of(2026, 12, 12),
+    )
 
-    assert period.ends_on == date(2027, 1, 31)
+    assertEquals(LocalDate.of(2027, 1, 31), period.endsOn)
+}
 ```
 
 One new class, one new test, one line of wiring. The same developer implements it in less than the hour the product owner estimated. Not because they know the system better now, but because they do not have to.

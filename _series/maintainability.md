@@ -33,29 +33,30 @@ Referenz für Ton und Kernaussagen. Die Posts übersetzen und verdichten diese A
 
 ## Durchgehendes Beispiel
 
-Alle Posts verwenden dieselbe Domäne und dieselben Namen. Code in Python, Tests mit pytest.
+Alle Posts verwenden dieselbe Domäne und dieselben Namen. Code in Kotlin (Legacy: Spring mit `JdbcTemplate` und JPA), Tests mit JUnit 5 und `kotlin.test`, Testnamen in Backticks.
 
 **Domäne:** Online-Shop. **Protagonist:** ein neues Teammitglied ("the new developer").
 
 **Änderungsanforderung:** "Bestellungen aus dem Dezember können bis zum 31. Januar zurückgegeben werden." Geschätzt: eine Stunde.
 
 **Legacy-Zustand:**
-- `OrderService` mit `calculate_total`, `request_return`, `create_invoice`, `send_payment_reminders`, `send_confirmation`. Greift direkt auf `self.db` (SQL), `self.mailer` und `self.pdf_renderer` zu.
-- `_within_deadline(order)`: `order.delivered_at + timedelta(days=14) >= datetime.now()`. Wird von `request_return` **und** von `send_payment_reminders` (Zahlungsziel Kauf auf Rechnung, ebenfalls 14 Tage ab Lieferung) genutzt.
-- Magic Number `order.status == 4` bedeutet "geliefert".
+- `@Service OrderService` mit `calculateTotal`, `requestReturn`, `createInvoice`, `sendPaymentReminders`, `sendConfirmation`. Greift direkt auf `jdbc` (`JdbcTemplate`), `mailer` und `pdfRenderer` zu.
+- `withinDeadline(order)`: `order.deliveredAt!!.plusDays(14) >= LocalDateTime.now()`. Wird von `requestReturn` **und** von `sendPaymentReminders` (Zahlungsziel Kauf auf Rechnung, ebenfalls 14 Tage ab Lieferung) genutzt. Legacy-Code darf `!!` enthalten, der Zielzustand nicht.
+- Magic Number `order.status == 4` bedeutet "geliefert", `7` "Rückgabe angefordert".
+- In DD5 ist `Order` eine JPA-Entity mit `isReturnable()`, die API baut `returnHint` und `returnHintColor`.
 - Die vier Stellen der Rückgabefrist, drei Interpretationen:
-  1. Backend `_within_deadline`: 14 Tage ab Lieferung, Serverzeit
+  1. Backend `withinDeadline`: 14 Tage ab Lieferung, Serverzeit
   2. Frontend (JavaScript): 14 Tage ab `orderedAt`
   3. SQL-Report für den Kundenservice: `delivered_at > (NOW() AT TIME ZONE 'UTC') - INTERVAL '2 weeks'`
   4. Bestätigungsmail: fester Text "within 14 days"
-- Der Bug beim naiven Umsetzen: Die Dezember-Regel wird in `_within_deadline` eingebaut → Dezember-Bestellungen bekommen bis Februar keine Zahlungserinnerungen.
+- Der Bug beim naiven Umsetzen: Die Dezember-Regel wird in `withinDeadline` eingebaut → Dezember-Bestellungen bekommen bis Februar keine Zahlungserinnerungen.
 
 **Zielzustand:**
-- Domäne: `Order` (`mark_delivered(on, return_policy)` wendet die Policy einmalig bei Lieferung an und hält danach `return_period`; `request_return(today)`; `is_delivered()`), `OrderStatus` (Enum), `ReturnPeriod` (Value Object mit `ends_on`, `allows_return_on(day)`, `extended_to(day)`, `ends_soon(today)`), `ReturnPolicy` (Schnittstelle), `StandardReturnPolicy` (`RETURN_DAYS = 14`), `HolidayReturnPolicy` (dekoriert die Standard-Policy), `PaymentTerm` + `InvoicePaymentTerms` (`PAYMENT_DAYS = 14`, eigenes Konzept, getrennt von der Rückgabefrist). Das gesetzliche Widerrufsrecht (`WITHDRAWAL_DAYS = 14`) bleibt bewusst getrennt.
-- Application: Use Cases `RequestReturn` (`OrderRepository`, `Clock`, `CustomerNotifications`) und `SendPaymentReminders` (zusätzlich `InvoicePaymentTerms`).
-- Ports: `Clock` (`today()`; in DD1 als Zwischenschritt `now()`, solange das minutengenaue Altverhalten gilt), `OrderRepository` (`get`, `save`, `unpaid_invoice_orders`), `CustomerNotifications`. Adapter: `SystemClock` (mit der Zeitzone des Shops, Entscheidung des Kundenservice), `FixedClock` (Test), `PostgresOrderRepository`.
-- Persistenz speichert `return_period_ends_on`. Der Report filtert nur noch auf den gespeicherten Wert.
-- UI als Humble Object: bekommt `return_period_ends_on` und `return_period_ends_soon` und entscheidet nur über Darstellung.
+- Domäne in reinem Kotlin ohne Annotationen: `Order` (`status`, `deliveredOn`, `returnPeriod` als `var … private set`; `markDelivered(on, returnPolicy)` wendet die Policy einmalig bei Lieferung an; `requestReturn(today)`; `isDelivered()`), `OrderStatus` (Enum), `ReturnPeriod` (`data class` mit `endsOn`, `allowsReturnOn(day)`, `extendedTo(day)`, `endsSoon(today)`), `ReturnPolicy` (Interface mit `returnPeriodFor(orderedOn, deliveredOn)`), `StandardReturnPolicy` (`RETURN_DAYS = 14L`), `HolidayReturnPolicy` (dekoriert eine `ReturnPolicy`), `PaymentTerm` + `InvoicePaymentTerms` (`PAYMENT_DAYS = 14L`, `paymentTermFor(deliveredOn)`, eigenes Konzept, getrennt von der Rückgabefrist). Das gesetzliche Widerrufsrecht (`WITHDRAWAL_DAYS = 14L`) bleibt bewusst getrennt.
+- Application: Use Cases `RequestReturn` (`OrderRepository`, `Clock`, `CustomerNotifications`) und `SendPaymentReminders` (zusätzlich `InvoicePaymentTerms`, arbeitet auf `UnpaidInvoice`).
+- Ports: `Clock` (`today()`; in DD1 als Zwischenschritt `now()`, solange das minutengenaue Altverhalten gilt), `OrderRepository` (`get`, `save`, `unpaidInvoices`), `CustomerNotifications` (`returnConfirmed`, `paymentOverdue`). Adapter: `SystemClock(zone: ZoneId)` (Zeitzone des Shops, Entscheidung des Kundenservice), `FixedClock` (Test), `PostgresOrderRepository`.
+- Persistenz speichert `return_period_ends_on`. Der Report filtert nur noch auf den gespeicherten Wert (`:today`).
+- UI als Humble Object: `OrderDetails` liefert `returnPeriodEndsOn` und `returnPeriodEndsSoon`, das Frontend entscheidet nur über Darstellung.
 - Entscheidungen des Kundenservice im Verlauf: ab Lieferung, ganze Tage, lokale Zeit des Shops; bei Dezember-Bestellungen gilt die später endende Frist.
 
 **Falsche Doppelung:** gesetzliches Widerrufsrecht (14 Tage) vs. freiwillige Rückgabefrist (heute auch 14 Tage). Gleicher Wert, zwei Entscheidungen.

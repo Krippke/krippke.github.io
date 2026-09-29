@@ -25,9 +25,9 @@ The developer goes looking and finds the return period in four places.
 
 In the backend, 14 days from delivery, in server time:
 
-```python
-def _within_deadline(self, order):
-    return order.delivered_at + timedelta(days=14) >= datetime.now()
+```kotlin
+private fun withinDeadline(order: Order) =
+    order.deliveredAt!!.plusDays(14) >= LocalDateTime.now()
 ```
 
 In the frontend, 14 days from the order date:
@@ -70,11 +70,16 @@ This is the question that turns a one-hour ticket into a three-day ticket. The c
 
 So the developer does what I always do in this situation: write a test for one interpretation and take it to the people who know.
 
-```python
-def test_return_period_ends_14_days_after_delivery():
-    order = an_order(ordered_on=date(2026, 2, 26), delivered_on=date(2026, 3, 1))
+```kotlin
+@Test
+fun `return period ends 14 days after delivery`() {
+    val period = StandardReturnPolicy().returnPeriodFor(
+        orderedOn = LocalDate.of(2026, 2, 26),
+        deliveredOn = LocalDate.of(2026, 3, 1),
+    )
 
-    assert StandardReturnPolicy().return_period_for(order).ends_on == date(2026, 3, 15)
+    assertEquals(LocalDate.of(2026, 3, 15), period.endsOn)
+}
 ```
 
 The test may be wrong. That is fine - any definition is better than no definition. Customer service confirms: from delivery, whole days, in the shop's local time. Now the decision is not just made, it is written down in a form that fails loudly if anyone ever changes it by accident.
@@ -85,13 +90,18 @@ The fix is not to update four places. Four places will drift again. The fix is t
 
 The domain owns the rule. It applies the return policy once, when the order is delivered, and the order keeps its `ReturnPeriod`. Everything else gets the answer:
 
-```python
-def order_details(order: Order) -> dict:
-    return {
-        "id": order.id,
-        "ordered_on": order.ordered_on.isoformat(),
-        "return_period_ends_on": order.return_period.ends_on.isoformat(),
-    }
+```kotlin
+data class OrderDetails(
+    val id: Long,
+    val orderedOn: LocalDate,
+    val returnPeriodEndsOn: LocalDate?,
+)
+
+fun Order.toDetails() = OrderDetails(
+    id = id,
+    orderedOn = orderedOn,
+    returnPeriodEndsOn = returnPeriod?.endsOn,
+)
 ```
 
 The frontend no longer calculates anything. It displays a date it was given:
@@ -114,14 +124,14 @@ Now the December rule changes one place. The shop, the email and the report foll
 
 After a refactoring like this, it is tempting to go hunting for every duplication in the codebase. The developer finds this in the module that generates the legal texts:
 
-```python
-WITHDRAWAL_DAYS = 14
+```kotlin
+const val WITHDRAWAL_DAYS = 14L
 ```
 
 And in the return policy:
 
-```python
-RETURN_DAYS = 14
+```kotlin
+const val RETURN_DAYS = 14L
 ```
 
 Same number, same unit, both about customers sending things back. Merge them?
@@ -136,7 +146,7 @@ So the question is never "do these look the same?" The question is: "Is this the
 
 ## Where it gets hard
 
-**Finding all the copies.** Copies of a decision rarely look the same. `timedelta(days=14)`, `INTERVAL '2 weeks'`, `addDays(..., 14)` and "within 14 days" are all the same decision. Searching for the number helps. Characterization tests help more, because they force you to look at what each part of the system actually does.
+**Finding all the copies.** Copies of a decision rarely look the same. `plusDays(14)`, `INTERVAL '2 weeks'`, `addDays(..., 14)` and "within 14 days" are all the same decision. Searching for the number helps. Characterization tests help more, because they force you to look at what each part of the system actually does.
 
 **Deciding which copy is right.** Sometimes the answer is none of them. Sometimes each copy is right for a different part of the business, and you have just discovered that there are two concepts instead of one. Either way, this is not a decision the developer should make alone.
 
