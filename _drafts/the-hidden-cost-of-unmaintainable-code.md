@@ -4,7 +4,7 @@ title: "The hidden cost of unmaintainable code"
 excerpt: "Unmaintainable code does not fail loudly. It makes every change slower, riskier and more frightening. What it really costs, and how to turn legacy code back into simple, boring code."
 author: "Manuel Holzrichter"
 header:
-  teaser: /assets/images/busy-minded-human.jpg
+  teaser: /assets/images/hidden-cost.jpg
 tags:
   [
     software-architecture,

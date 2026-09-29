@@ -4,7 +4,7 @@ title: "Responsibilities in the right layer"
 excerpt: "Business rules in SQL, date formatting in the backend, the system clock in the domain. When responsibilities sit on the wrong layer, every change spreads. Where each responsibility belongs, and why the dependency rule holds it all together."
 author: "Manuel Holzrichter"
 header:
-  teaser: /assets/images/transit-map.jpg
+  teaser: /assets/images/right-layer.jpg
 tags:
   [
     clean-architecture,

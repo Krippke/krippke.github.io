@@ -4,7 +4,7 @@ title: "One decision, one place"
 excerpt: "Every decision that lives in more than one place will drift. How duplicated decisions create bugs long before anyone touches them - and why two identical numbers are not always a duplication."
 author: "Manuel Holzrichter"
 header:
-  teaser: /assets/images/celebrating-2.jpg
+  teaser: /assets/images/one-decision.jpg
 tags:
   [
     dry,

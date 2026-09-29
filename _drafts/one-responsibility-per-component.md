@@ -4,7 +4,7 @@ title: "One responsibility per component"
 excerpt: "A component that serves several departments has several reasons to change - and every change for one of them can break the others. How to recognize when to split, and when splitting goes too far."
 author: "Manuel Holzrichter"
 header:
-  teaser: /assets/images/domino.jpg
+  teaser: /assets/images/one-responsibility.jpg
 tags:
   [
     single-responsibility-principle,

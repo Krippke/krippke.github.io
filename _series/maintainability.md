@@ -88,7 +88,7 @@ Reihenfolge der Veröffentlichung: 0 zuerst, dann 1 bis 5.
 ## Checkliste für die Veröffentlichung
 
 - [ ] `TODO-link` durch echte Permalinks ersetzen (hängen vom Veröffentlichungsdatum ab): `grep -rn "TODO-link" _drafts _posts`
-- [ ] Teaser-Bilder ersetzen: aktuell Platzhalter, DD4 und DD5 verwenden bereits genutzte Bilder
+- [x] Teaser-Bilder ersetzen (Prompts: `maintainability-teaser-prompts.md`)
 - [ ] `date` und `last_modified_at` im Front Matter ergänzen
 - [ ] Eintrag in `llms.txt`
 - [ ] Nach jeder Veröffentlichung eines Deep Dives den Link in der Übersicht ergänzen

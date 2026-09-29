@@ -4,7 +4,7 @@ title: "Making implicit concepts explicit"
 excerpt: "The concept your business talks about every day often does not exist in your code. How to find implicit concepts, how to express them in the structure of the code, and why it turns complicated code into simple code."
 author: "Manuel Holzrichter"
 header:
-  teaser: /assets/images/celebrating.jpg
+  teaser: /assets/images/implicit-concepts.jpg
 tags:
   [
     domain-driven-design,
