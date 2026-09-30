@@ -15,7 +15,7 @@ tags:
   ]
 ---
 
-This post is part of the series [The hidden cost of unmaintainable code](TODO-link). A new developer has to implement a small change in an online shop: "Orders placed in December can be returned until January 31." While [writing characterization tests](TODO-link), they found out that the return period [did not exist as a concept](TODO-link). Now they find out that it exists four times.
+This post is part of the series {% include series-link.html slug="the-hidden-cost-of-unmaintainable-code" text="The hidden cost of unmaintainable code" %}. A new developer has to implement a small change in an online shop: "Orders placed in December can be returned until January 31." While {% include series-link.html slug="refactoring-legacy-code-without-fear" text="writing characterization tests" %}, they found out that the return period {% include series-link.html slug="making-implicit-concepts-explicit" text="did not exist as a concept" %}. Now they find out that it exists four times.
 
 A support ticket lands in the team channel. A customer wanted to return a jacket. The shop told them the return period had ended on March 12. Customer service checked their report: the order was still returnable. The customer tried anyway, and the backend accepted the return. Three systems, three answers.
 
@@ -60,7 +60,7 @@ The frontend feature was built at a time when the order API did not return the d
 
 But they all made *the same* decision. Separately, at different times, with slightly different understanding. And separate copies of a decision drift apart. Not maybe. Inevitably.
 
-This is what [implicit concepts](TODO-link) lead to. When a rule has no home in the code, everyone who needs it builds their own version. Each copy is a chance for a slightly different interpretation, and each future change has to find and update every copy. Miss one, and the system contradicts itself.
+This is what {% include series-link.html slug="making-implicit-concepts-explicit" text="implicit concepts" %} lead to. When a rule has no home in the code, everyone who needs it builds their own version. Each copy is a chance for a slightly different interpretation, and each future change has to find and update every copy. Miss one, and the system contradicts itself.
 
 The December ticket did not create this bug. The bug had been in production for months. The ticket only made it visible, because it forced someone to look at all four places at the same time.
 
@@ -116,7 +116,7 @@ The confirmation email receives the same date:
 You can return your items until {{ return_period_ends_on | format_date }}.
 ```
 
-And the report no longer knows the rule. The persistence layer stores the end of the return period like any other state, and the query only filters on that stored value. How that works in detail is part of [Responsibilities in the right layer](TODO-link).
+And the report no longer knows the rule. The persistence layer stores the end of the return period like any other state, and the query only filters on that stored value. How that works in detail is part of {% include series-link.html slug="responsibilities-in-the-right-layer" text="Responsibilities in the right layer" %}.
 
 Now the December rule changes one place. The shop, the email and the report follow automatically, because they never knew the rule in the first place.
 
@@ -142,7 +142,7 @@ Merge them, and the December extension suddenly changes the legal withdrawal not
 
 Sandi Metz put it well: "Duplication is far cheaper than the wrong abstraction." When Andy Hunt and Dave Thomas coined DRY in *The Pragmatic Programmer*, they did not talk about identical code. They wrote: "Every piece of knowledge must have a single, unambiguous, authoritative representation within a system." Knowledge. Not text.
 
-So the question is never "do these look the same?" The question is: "Is this the same decision, made by the same people, for the same reason?" If yes, it belongs in one place. If no, it needs two places, even if they look identical today. The payment term in the same shop is another example: also 14 days after delivery, but decided by accounting, not customer service. More about that in [One responsibility per component](TODO-link).
+So the question is never "do these look the same?" The question is: "Is this the same decision, made by the same people, for the same reason?" If yes, it belongs in one place. If no, it needs two places, even if they look identical today. The payment term in the same shop is another example: also 14 days after delivery, but decided by accounting, not customer service. More about that in {% include series-link.html slug="one-responsibility-per-component" text="One responsibility per component" %}.
 
 ## Where it gets hard
 

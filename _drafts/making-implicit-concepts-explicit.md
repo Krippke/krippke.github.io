@@ -15,7 +15,7 @@ tags:
   ]
 ---
 
-This post is part of the series [The hidden cost of unmaintainable code](TODO-link). A new developer has to implement a small change in an online shop: "Orders placed in December can be returned until January 31." They have already [put a safety net of tests in place](TODO-link). Now they want to find the return period in the code.
+This post is part of the series {% include series-link.html slug="the-hidden-cost-of-unmaintainable-code" text="The hidden cost of unmaintainable code" %}. A new developer has to implement a small change in an online shop: "Orders placed in December can be returned until January 31." They have already {% include series-link.html slug="refactoring-legacy-code-without-fear" text="put a safety net of tests in place" %}. Now they want to find the return period in the code.
 
 They search for "return period". Nothing. "Return deadline". Nothing. "Returnable". Nothing.
 
@@ -42,7 +42,7 @@ An implicit concept is a piece of business knowledge that the code relies on but
 
 This is cognitive load in its purest form. Every developer who touches this code has to hold the translation in their head: "deadline means return period, 4 means delivered, 14 is a business decision, not a technical constant". Miss one of those, and you produce a bug.
 
-And it gets worse. Because the concept has no home, every developer who needs it builds their own version. The frontend computes its own return period. The report computes its own. That is how implicit concepts turn into [decisions spread across the system](TODO-link), and those decisions drift apart.
+And it gets worse. Because the concept has no home, every developer who needs it builds their own version. The frontend computes its own return period. The report computes its own. That is how implicit concepts turn into {% include series-link.html slug="one-decision-one-place" text="decisions spread across the system" %}, and those decisions drift apart.
 
 ## How to find implicit concepts
 
@@ -185,7 +185,7 @@ You could show these test names to a customer service lead and they would unders
 
 **Not every number is a concept.** Making everything explicit leads to a codebase full of tiny classes that nobody asked for. My test: does the business talk about it? Would it change for a business reason? Is it used in more than one place? If the answer is yes to any of these, it deserves a name.
 
-**Renaming in a legacy codebase is scary.** Introducing a concept often means touching many places. This is where the tests from the [first step](TODO-link) pay off. Introduce the new concept next to the old code, move the callers one by one, and delete the old version when nothing uses it anymore.
+**Renaming in a legacy codebase is scary.** Introducing a concept often means touching many places. This is where the tests from the {% include series-link.html slug="refactoring-legacy-code-without-fear" text="first step" %} pay off. Introduce the new concept next to the old code, move the callers one by one, and delete the old version when nothing uses it anymore.
 
 ## Why I love this part
 

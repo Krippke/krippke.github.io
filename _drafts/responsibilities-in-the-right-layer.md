@@ -15,7 +15,7 @@ tags:
   ]
 ---
 
-This post is the last part of the series [The hidden cost of unmaintainable code](TODO-link). A new developer has to implement a small change in an online shop: "Orders placed in December can be returned until January 31." They have [put tests in place](TODO-link), [given the return period a name](TODO-link), [merged its copies into one place](TODO-link) and [split the class that served too many departments](TODO-link). One question is left: where does each piece actually belong?
+This post is the last part of the series {% include series-link.html slug="the-hidden-cost-of-unmaintainable-code" text="The hidden cost of unmaintainable code" %}. A new developer has to implement a small change in an online shop: "Orders placed in December can be returned until January 31." They have {% include series-link.html slug="refactoring-legacy-code-without-fear" text="put tests in place" %}, {% include series-link.html slug="making-implicit-concepts-explicit" text="given the return period a name" %}, {% include series-link.html slug="one-decision-one-place" text="merged its copies into one place" %} and {% include series-link.html slug="one-responsibility-per-component" text="split the class that served too many departments" %}. One question is left: where does each piece actually belong?
 
 While consolidating the return period, the developer keeps finding it in places where it has no business being. The API builds a ready-made sentence for the shop:
 

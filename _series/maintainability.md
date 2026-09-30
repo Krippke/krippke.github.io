@@ -63,22 +63,23 @@ Alle Posts verwenden dieselbe Domäne und dieselben Namen. Code in Kotlin (Legac
 
 ## Serienübersicht
 
-| # | Datei | Kernfrage | Hauptreferenz |
-|---|---|---|---|
-| 0 | `the-hidden-cost-of-unmaintainable-code.md` | Was kostet unwartbarer Code wirklich, und wie komme ich da raus? | - |
-| 1 | `refactoring-legacy-code-without-fear.md` | Wie bekomme ich ein Sicherheitsnetz in ein System ohne Tests? | Feathers, *Working Effectively with Legacy Code* |
-| 2 | `making-implicit-concepts-explicit.md` | Wie finde ich implizite Konzepte und bilde sie ab? | Evans, *Domain-Driven Design*, Kap. 9 |
-| 3 | `one-decision-one-place.md` | Warum driften verteilte Entscheidungen, und wann ist Doppelung keine? | Hunt & Thomas (DRY), Sandi Metz |
-| 4 | `one-responsibility-per-component.md` | Woran erkenne ich, dass eine Komponente geteilt werden muss? | Martin (SRP), Ousterhout |
-| 5 | `responsibilities-in-the-right-layer.md` | Welche Verantwortung gehört auf welche Ebene? | Cockburn, Martin (Clean Architecture) |
+| # | Veröffentlichung | Datei | Kernfrage | Hauptreferenz |
+|---|---|---|---|---|
+| 0 | Di, 06.10.2026 | `the-hidden-cost-of-unmaintainable-code.md` | Was kostet unwartbarer Code wirklich, und wie komme ich da raus? | - |
+| 1 | Di, 13.10.2026 | `refactoring-legacy-code-without-fear.md` | Wie bekomme ich ein Sicherheitsnetz in ein System ohne Tests? | Feathers, *Working Effectively with Legacy Code* |
+| 2 | Di, 20.10.2026 | `making-implicit-concepts-explicit.md` | Wie finde ich implizite Konzepte und bilde sie ab? | Evans, *Domain-Driven Design*, Kap. 9 |
+| 3 | Di, 27.10.2026 | `one-decision-one-place.md` | Warum driften verteilte Entscheidungen, und wann ist Doppelung keine? | Hunt & Thomas (DRY), Sandi Metz |
+| 4 | Di, 03.11.2026 | `one-responsibility-per-component.md` | Woran erkenne ich, dass eine Komponente geteilt werden muss? | Martin (SRP), Ousterhout |
+| 5 | Di, 10.11.2026 | `responsibilities-in-the-right-layer.md` | Welche Verantwortung gehört auf welche Ebene? | Cockburn, Martin (Clean Architecture) |
 
-Reihenfolge der Veröffentlichung: 0 zuerst, dann 1 bis 5.
+Ein Post pro Woche, jeweils dienstags, manuell gepusht.
 
 ## Konventionen
 
 - Englisch, Ich-Perspektive, kurze Absätze, Einstieg mit einer konkreten Szene. Bindestrich " - " statt Gedankenstrich.
 - Deep Dives: Szene → Symptom → Kosten → Refactoring vorher/nachher → Test als Spezifikation → wo es schwierig wird → persönliches Fazit.
 - Jeder Deep Dive verlinkt die Übersicht. Die Übersicht verlinkt alle Deep Dives.
+- Links zwischen Posts der Serie immer über `{% include series-link.html slug="…" text="…" %}`, nie als feste URL. Solange der Ziel-Post nicht veröffentlicht ist, erscheint nur der Text.
 - Nicht wiederholen, sondern verlinken:
   - [The role of tests](https://www.manuel-holzrichter.de/2024/01/11/the-role-of-tests/)
   - [Why you always need to be wrong](https://www.manuel-holzrichter.de/2026/02/19/why-you-always-need-to-be-wrong/)
@@ -87,8 +88,11 @@ Reihenfolge der Veröffentlichung: 0 zuerst, dann 1 bis 5.
 
 ## Checkliste für die Veröffentlichung
 
-- [ ] `TODO-link` durch echte Permalinks ersetzen (hängen vom Veröffentlichungsdatum ab): `grep -rn "TODO-link" _drafts _posts`
 - [x] Teaser-Bilder ersetzen (Prompts: `maintainability-teaser-prompts.md`)
-- [ ] `date` und `last_modified_at` im Front Matter ergänzen
-- [ ] Eintrag in `llms.txt`
-- [ ] Nach jeder Veröffentlichung eines Deep Dives den Link in der Übersicht ergänzen
+
+Pro Post am Veröffentlichungstag:
+
+1. `git mv _drafts/<slug>.md _posts/<datum>-<slug>.md`
+2. `date` und `last_modified_at` im Front Matter ergänzen
+3. Eintrag oben unter "Posts" in `llms.txt`
+4. `bundle exec jekyll build` lokal prüfen, dann frühestens am Datum im Dateinamen pushen. Posts mit Datum in der Zukunft baut Jekyll nicht, und GitHub Pages baut erst beim nächsten Push neu.

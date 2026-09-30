@@ -73,7 +73,7 @@ Even that is harder than expected. The return logic lives in an `OrderService` t
 
 The first test may even encode the wrong behaviour. That is fine. Any definition is better than no definition. It will be corrected in conversations with the people who know the business. What matters is that the behaviour is written down as an automated test. Without tests, you have to walk slowly and carefully. With tests, you can run, because you get told the moment you break something.
 
-Deep dive: [Refactoring legacy code without fear](TODO-link)
+Deep dive: {% include series-link.html slug="refactoring-legacy-code-without-fear" text="Refactoring legacy code without fear" %}
 
 ## Step 2: The concept that does not exist
 
@@ -88,7 +88,7 @@ Somebody had to know that "deadline" means return period here, and that `14` is 
 
 When a concept is implicit, every developer has to reconstruct it from arithmetic. When it is explicit - a `ReturnPeriod` with a name, a place and a clear rule - the code can be read in the language of the business, and the December rule has an obvious place to live.
 
-Deep dive: [Making implicit concepts explicit](TODO-link)
+Deep dive: {% include series-link.html slug="making-implicit-concepts-explicit" text="Making implicit concepts explicit" %}
 
 ## Step 3: Four places, three answers
 
@@ -105,7 +105,7 @@ This is what implicit concepts lead to. The same decision gets made in several p
 
 The fix is not to update four places. It is to make the decision once, and let everything else ask for the result.
 
-Deep dive: [One decision, one place](TODO-link)
+Deep dive: {% include series-link.html slug="one-decision-one-place" text="One decision, one place" %}
 
 ## Step 4: The change that broke the invoices
 
@@ -115,7 +115,7 @@ The same `OrderService` also sends payment reminders for customers who buy on in
 
 A component that serves customer service, accounting and marketing at the same time has three reasons to change. Every change for one of them risks breaking the others.
 
-Deep dive: [One responsibility per component](TODO-link)
+Deep dive: {% include series-link.html slug="one-responsibility-per-component" text="One responsibility per component" %}
 
 ## Step 5: The rule in the wrong place
 
@@ -123,7 +123,7 @@ Finally, the developer finds that the return rule is also baked into a SQL query
 
 When responsibilities sit on the wrong layer, changes spread across layers that should not care. The UI should only decide how things look. Persistence should only store and restore state. The domain should know the business rules and nothing about technology. And the application layer should orchestrate the domain and keep external dependencies behind ports.
 
-Deep dive: [Responsibilities in the right layer](TODO-link)
+Deep dive: {% include series-link.html slug="responsibilities-in-the-right-layer" text="Responsibilities in the right layer" %}
 
 ## The same change, one more time
 
@@ -171,8 +171,8 @@ The goal is simple, boring code that does what it should.
 
 This post is the overview of a series. Each deep dive takes one step from the story and walks through a concrete refactoring:
 
-1. [Refactoring legacy code without fear](TODO-link)
-2. [Making implicit concepts explicit](TODO-link)
-3. [One decision, one place](TODO-link)
-4. [One responsibility per component](TODO-link)
-5. [Responsibilities in the right layer](TODO-link)
+1. {% include series-link.html slug="refactoring-legacy-code-without-fear" text="Refactoring legacy code without fear" pending=" - coming soon" %}
+2. {% include series-link.html slug="making-implicit-concepts-explicit" text="Making implicit concepts explicit" pending=" - coming soon" %}
+3. {% include series-link.html slug="one-decision-one-place" text="One decision, one place" pending=" - coming soon" %}
+4. {% include series-link.html slug="one-responsibility-per-component" text="One responsibility per component" pending=" - coming soon" %}
+5. {% include series-link.html slug="responsibilities-in-the-right-layer" text="Responsibilities in the right layer" pending=" - coming soon" %}

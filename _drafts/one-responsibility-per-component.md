@@ -15,7 +15,7 @@ tags:
   ]
 ---
 
-This post is part of the series [The hidden cost of unmaintainable code](TODO-link). A new developer has to implement a small change in an online shop: "Orders placed in December can be returned until January 31." This part is about their first attempt, and what it broke.
+This post is part of the series {% include series-link.html slug="the-hidden-cost-of-unmaintainable-code" text="The hidden cost of unmaintainable code" %}. A new developer has to implement a small change in an online shop: "Orders placed in December can be returned until January 31." This part is about their first attempt, and what it broke.
 
 The developer has found the method that decides whether a return is still allowed. The change looks straightforward:
 
@@ -80,7 +80,7 @@ A component with several responsibilities is expensive in ways that are easy to 
 
 ## Splitting along the actors
 
-The refactoring follows the actors. Each department's rules get their own home, and the payment term becomes a concept of its own, [explicit](TODO-link) and independent from the return period:
+The refactoring follows the actors. Each department's rules get their own home, and the payment term becomes a concept of its own, {% include series-link.html slug="making-implicit-concepts-explicit" text="explicit" %} and independent from the return period:
 
 ```kotlin
 data class PaymentTerm(val dueOn: LocalDate) {
@@ -156,7 +156,7 @@ That is why I split along actors and reasons to change, not along verbs or lines
 
 ## Where it gets hard
 
-**Splitting a large class without breaking it.** I never do it in one step. I extract one responsibility at a time, let the old class delegate to the new one, and move the callers over when the tests are green. The [characterization tests](TODO-link) from the first step make this possible.
+**Splitting a large class without breaking it.** I never do it in one step. I extract one responsibility at a time, let the old class delegate to the new one, and move the callers over when the tests are green. The {% include series-link.html slug="refactoring-legacy-code-without-fear" text="characterization tests" %} from the first step make this possible.
 
 **Shared data.** The methods are easy to split. The data is harder. Every department uses the `Order`, and it tends to grow into a class that knows everything about everyone. Sometimes the right answer is to accept that accounting and customer service mean slightly different things when they say "order" - and give each its own model. That is a topic for another post.
 

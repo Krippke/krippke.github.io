@@ -9,7 +9,7 @@ tags:
   [legacy-code, refactoring, testing, characterization-tests, maintainability]
 ---
 
-This post is part of the series [The hidden cost of unmaintainable code](TODO-link). The series follows a new developer through a small change in an online shop: "Orders placed in December can be returned until January 31." This part is about the first thing they do, before touching any feature code.
+This post is part of the series {% include series-link.html slug="the-hidden-cost-of-unmaintainable-code" text="The hidden cost of unmaintainable code" %}. The series follows a new developer through a small change in an online shop: "Orders placed in December can be returned until January 31." This part is about the first thing they do, before touching any feature code.
 
 The developer opens `OrderService`. It is 1,400 lines long. It calculates totals, handles returns, creates invoices, sends payment reminders and confirmation emails. There is a `tests` folder. It contains one file, last changed four years ago, and it is skipped.
 
@@ -143,7 +143,7 @@ For the orchestration in `request_return` - load the order, check the rule, upda
 
 Faking raw SQL calls is painful and fragile. So instead of mocking the `JdbcTemplate`, I move the queries behind an `OrderRepository` with `get` and `save`, and the mail sending behind a `CustomerNotifications` port. Both have simple in-memory implementations for tests. The service stops knowing about SQL and SMTP altogether.
 
-This is where test coverage and structure start to reinforce each other. The effort to make the code testable is the same effort that gives it a clear domain, an application layer that orchestrates, a persistence layer that only stores and restores state, and a humble UI. The details are in [Responsibilities in the right layer](TODO-link).
+This is where test coverage and structure start to reinforce each other. The effort to make the code testable is the same effort that gives it a clear domain, an application layer that orchestrates, a persistence layer that only stores and restores state, and a humble UI. The details are in {% include series-link.html slug="responsibilities-in-the-right-layer" text="Responsibilities in the right layer" %}.
 
 ## The notes list
 
@@ -162,10 +162,10 @@ For the developer in the shop, the list looked like this after two days:
 
 Every line on this list is a symptom of a structural problem. Or put differently: of a concept that was implemented in an extremely complicated way. The list becomes the backlog for the actual refactoring, and each entry leads to one of the principles in this series:
 
-- A concept without a name → [Making implicit concepts explicit](TODO-link)
-- The same decision in several places → [One decision, one place](TODO-link)
-- One function serving two departments → [One responsibility per component](TODO-link)
-- Business rules in SQL and the frontend → [Responsibilities in the right layer](TODO-link)
+- A concept without a name → {% include series-link.html slug="making-implicit-concepts-explicit" text="Making implicit concepts explicit" %}
+- The same decision in several places → {% include series-link.html slug="one-decision-one-place" text="One decision, one place" %}
+- One function serving two departments → {% include series-link.html slug="one-responsibility-per-component" text="One responsibility per component" %}
+- Business rules in SQL and the frontend → {% include series-link.html slug="responsibilities-in-the-right-layer" text="Responsibilities in the right layer" %}
 
 ## Where it gets hard
 
