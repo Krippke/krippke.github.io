@@ -79,20 +79,19 @@ Ein Post pro Woche, jeweils mittwochs, manuell gepusht.
 - Englisch, Ich-Perspektive, kurze Absätze, Einstieg mit einer konkreten Szene. Bindestrich " - " statt Gedankenstrich.
 - Deep Dives: Szene → Symptom → Kosten → Refactoring vorher/nachher → Test als Spezifikation → wo es schwierig wird → persönliches Fazit.
 - Jeder Deep Dive verlinkt die Übersicht. Die Übersicht verlinkt alle Deep Dives.
-- Links zwischen Posts der Serie immer über `{% include series-link.html slug="…" text="…" %}`, nie als feste URL. Solange der Ziel-Post nicht veröffentlicht ist, erscheint nur der Text.
+- Links zwischen Posts der Serie immer über `:series-link[Text]{slug="…"}` (optional `pending=" - coming soon"`), nie als feste URL. Solange der Ziel-Post nicht veröffentlicht ist, erscheint nur der Text.
 - Nicht wiederholen, sondern verlinken:
   - [The role of tests](https://www.manuel-holzrichter.de/2024/01/11/the-role-of-tests/)
   - [Why you always need to be wrong](https://www.manuel-holzrichter.de/2026/02/19/why-you-always-need-to-be-wrong/)
   - [Foreign systems will change](https://www.manuel-holzrichter.de/2026/03/29/foreign-systems-will-change-heres-how-to-be-ready/) für Ports und Adapter
-- `_drafts/the-role-of-architecture.md` ist ein eigenständiger Post und nicht Teil der Serie.
+- `src/content/drafts/en/the-role-of-architecture.md` ist ein eigenständiger Post und nicht Teil der Serie.
 
 ## Checkliste für die Veröffentlichung
 
 - [x] Teaser-Bilder ersetzen (Prompts: `maintainability-teaser-prompts.md`)
 
-Pro Post am Veröffentlichungstag:
+Pro Post, beliebig lange vor dem Veröffentlichungstag:
 
-1. `git mv _drafts/<slug>.md _posts/<datum>-<slug>.md`
-2. `date` und `last_modified_at` im Front Matter ergänzen
-3. Eintrag oben unter "Posts" in `llms.txt`
-4. `bundle exec jekyll build` lokal prüfen, dann frühestens am Datum im Dateinamen pushen. Posts mit Datum in der Zukunft baut Jekyll nicht, und GitHub Pages baut erst beim nächsten Push neu.
+1. `git mv src/content/drafts/en/<slug>.md src/content/posts/en/<datum>-<slug>.md`
+2. `date` und `updated` im Front Matter ergänzen
+3. `npm run build && npm test` lokal prüfen und pushen. Der tägliche Build um 04:00 UTC veröffentlicht den Post am Datum im Dateinamen, die Serien-Links werden dabei automatisch aktiv.

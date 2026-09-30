@@ -1,35 +1,40 @@
 # manuel-holzrichter.de
 
-Personal blog at [www.manuel-holzrichter.de](https://www.manuel-holzrichter.de) — built with [Jekyll](https://jekyllrb.com/) and the [Minimal Mistakes](https://mmistakes.github.io/minimal-mistakes/) theme, hosted on GitHub Pages.
+Personal blog at [www.manuel-holzrichter.de](https://www.manuel-holzrichter.de), built with [Astro](https://astro.build) and deployed to GitHub Pages by GitHub Actions. English lives at the root, German under `/de/`.
 
-## Local Development
+## Local development
 
 ```bash
-docker compose up
+npm install
+npm run dev       # http://localhost:4321, includes drafts
+npm run build     # static site in dist/, plus search index
+npm test          # URL, feed and series-link contract
 ```
 
-The site is available at `http://localhost:4000`.
+Search only works after `npm run build` (`npm run preview` serves the result).
 
 ## Content
 
-Posts go in `_posts/`, drafts in `_drafts/`. File naming: `YYYY-MM-DD-title.md`.
-
-Front matter:
+- Posts: `src/content/posts/<lang>/YYYY-MM-DD-slug.md`. Date and slug in the filename define the URL (`/YYYY/MM/DD/slug/`, German posts under `/de/`).
+- Drafts: `src/content/drafts/<lang>/slug.md`, visible only in `npm run dev`.
+- A German translation uses the same filename as the English post. An optional `slug:` gives it a German URL.
+- Images: `public/assets/images/`.
 
 ```yaml
 ---
-layout: single
 title: "The role of ..."
-date: 2025-01-01 12:00:00 +0100
-header:
-  teaser: /assets/images/your-image.png
-author: "Manuel Holzrichter"
-tags: [software development]
+excerpt: "One or two sentences for lists, feeds and search engines."
+date: 2026-10-07 18:00:00 +0200
+updated: 2026-10-07T18:00:00+02:00
+teaser: /assets/images/your-image.jpg
+tags: [software-architecture, testing]
 ---
 ```
 
-Images go in `assets/images/`.
+Link to another post whose publication may still be pending with `:series-link[Link text]{slug="post-slug" pending=" - coming soon"}`. It becomes a link once the target is published.
 
-## Deployment
+## Publishing
 
-Push to `main` — GitHub Pages builds and deploys automatically.
+A post appears on the date in its filename (Berlin time). The workflow builds on every push to `main` and every morning at 04:00 UTC, so a post can be pushed ahead of its date.
+
+Deployment is blocked while the legal pages still contain `TODO` placeholders (`npm run test:release`).
