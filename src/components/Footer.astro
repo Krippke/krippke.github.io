@@ -1,0 +1,56 @@
+---
+import { pathOf } from "../i18n/routes.ts";
+import { ui } from "../i18n/ui.ts";
+import type { Lang } from "../lib/post-path.ts";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer page">
+  <p class="meta">© {year} Manuel Holzrichter</p>
+  <ul class="meta">
+    <li><a href={pathOf("feed", lang)}>{t.feed}</a></li>
+    <li><a href="https://github.com/Krippke">GitHub</a></li>
+    <li><a href={pathOf("imprint", lang)} hreflang="de">{t.imprint}</a></li>
+    <li><a href={pathOf("privacy", lang)} hreflang="de">{t.privacy}</a></li>
+  </ul>
+</footer>
+
+<style>
+  .site-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    margin-top: var(--space-xl);
+    padding-block: var(--space-m) var(--space-l);
+    border-top: 1px solid var(--rule);
+  }
+
+  .site-footer p {
+    margin: 0;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    color: var(--ink-soft);
+  }
+
+  a:hover {
+    color: var(--ink);
+  }
+</style>

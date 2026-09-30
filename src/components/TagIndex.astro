@@ -1,0 +1,95 @@
+---
+import { pathOf } from "../i18n/routes.ts";
+import { formatDate, ui } from "../i18n/ui.ts";
+import TextPage from "../layouts/TextPage.astro";
+import type { Lang } from "../lib/post-path.ts";
+import { getPosts, type Post, tagSlug } from "../lib/posts.ts";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const posts = await getPosts(lang);
+const postsByTag = new Map<string, Post[]>();
+for (const post of posts) {
+  for (const tag of post.tags) postsByTag.set(tagSlug(tag), [...(postsByTag.get(tagSlug(tag)) ?? []), post]);
+}
+const tags = [...postsByTag].sort(([a, postsA], [b, postsB]) => postsB.length - postsA.length || a.localeCompare(b));
+---
+
+<TextPage
+  lang={lang}
+  title={t.tagIndexTitle}
+  description={t.tagIndexIntro}
+  path={pathOf("tags", lang)}
+  alternates={{ en: pathOf("tags", "en"), de: pathOf("tags", "de") }}>
+  <p>{t.tagIndexIntro}</p>
+  {
+    tags.length > 0 && (
+      <ul class="tag-cloud">
+        {tags.map(([tag, taggedPosts]) => (
+          <li>
+            <a href={`#${tag}`}>{tag}</a> <span class="meta">{taggedPosts.length}</span>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  {
+    tags.length === 0 && (
+      <p>
+        <a href={pathOf("tags", "en")} hreflang="en">
+          {ui.en.tagIndexTitle} (English)
+        </a>
+      </p>
+    )
+  }
+  {
+    tags.map(([tag, taggedPosts]) => (
+      <section class="tag" aria-labelledby={tag}>
+        <h2 id={tag}>{tag}</h2>
+        <p class="meta">{t.postCount(taggedPosts.length)}</p>
+        <ul>
+          {taggedPosts.map((post) => (
+            <li>
+              <a href={post.path}>{post.title}</a> <span class="meta">{formatDate(post.published, lang)}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</TextPage>
+
+<style>
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.1rem;
+    padding: 0 !important;
+    list-style: none;
+    font-size: 1rem;
+  }
+
+  .tag-cloud li {
+    margin: 0 !important;
+  }
+
+  .tag {
+    scroll-margin-top: 1.5rem;
+  }
+
+  .tag h2 {
+    margin-bottom: 0 !important;
+  }
+
+  .tag .meta {
+    margin-top: 0.15rem !important;
+  }
+
+  .tag ul {
+    padding-left: 1.1em;
+  }
+</style>

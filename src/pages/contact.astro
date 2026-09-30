@@ -1,0 +1,22 @@
+---
+import ContactForm from "../components/ContactForm.astro";
+import TextPage from "../layouts/TextPage.astro";
+---
+
+<TextPage
+  lang="en"
+  title="Contact"
+  description="Preferred methods of sending your questions, inquires, messages, and love letters to me."
+  path="/contact"
+  alternates={{ de: "/de/kontakt" }}>
+  <p>
+    I’m always happy to connect, whether it’s a professional inquiry, a question about one of my posts, a collaboration or a request for
+    <a href="/services">code review, system design or sparring</a>.
+  </p>
+  <p>Write me a message using the form below, and I’ll get back to you as soon as I can.</p>
+  <ContactForm lang="en" />
+  <p class="meta">
+    The form is delivered by HeroTofu. What happens with your data is described in the <a href="/de/datenschutz" hreflang="de">privacy policy</a>
+    (German).
+  </p>
+</TextPage>

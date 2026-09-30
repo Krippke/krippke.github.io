@@ -1,0 +1,21 @@
+---
+import ContactForm from "../../components/ContactForm.astro";
+import TextPage from "../../layouts/TextPage.astro";
+---
+
+<TextPage
+  lang="de"
+  title="Kontakt"
+  description="So erreichen Sie Manuel Holzrichter: Fragen zu Beiträgen, Anfragen für Code Reviews, Systemdesign oder Sparring."
+  path="/de/kontakt"
+  alternates={{ en: "/contact" }}>
+  <p>
+    Ich freue mich über jede Nachricht, ob Anfrage, Frage zu einem Beitrag, Idee für eine Zusammenarbeit oder Anfrage für
+    <a href="/de/leistungen">Code Review, Systemdesign oder Sparring</a>.
+  </p>
+  <p>Schreiben Sie mir über das Formular, ich melde mich so schnell wie möglich.</p>
+  <ContactForm lang="de" />
+  <p class="meta">
+    Das Formular wird über HeroTofu zugestellt. Was mit Ihren Daten passiert, steht in der <a href="/de/datenschutz">Datenschutzerklärung</a>.
+  </p>
+</TextPage>

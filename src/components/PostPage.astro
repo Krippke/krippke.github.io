@@ -1,0 +1,229 @@
+---
+import { render } from "astro:content";
+import { pathOf } from "../i18n/routes.ts";
+import { formatDate, ui } from "../i18n/ui.ts";
+import Base from "../layouts/Base.astro";
+import { SITE_URL } from "../lib/post-path.ts";
+import { type Post, relatedPosts, tagSlug, translationOf } from "../lib/posts.ts";
+import AuthorBox from "./AuthorBox.astro";
+import Share from "./Share.astro";
+
+interface Props {
+  post: Post;
+  posts: Post[];
+}
+
+const { post, posts } = Astro.props;
+const { lang } = post;
+const t = ui[lang];
+const { Content } = await render(post.entry);
+const samePostLanguage = posts.filter((other) => other.lang === lang);
+const index = samePostLanguage.indexOf(post);
+const newer = samePostLanguage[index - 1];
+const older = samePostLanguage[index + 1];
+const related = relatedPosts(post, posts);
+const translation = translationOf(post, posts);
+const wasUpdated = post.updated.getTime() - post.published.getTime() > 24 * 60 * 60 * 1000;
+const blogPosting = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.title,
+  description: post.excerpt,
+  datePublished: post.published.toISOString(),
+  dateModified: post.updated.toISOString(),
+  inLanguage: lang,
+  url: post.url,
+  image: new URL(post.teaser ?? "/assets/images/personal-website.jpg", SITE_URL).href,
+  author: { "@type": "Person", name: "Manuel Holzrichter", url: SITE_URL },
+};
+---
+
+<Base
+  lang={lang}
+  title={post.title}
+  description={post.excerpt}
+  path={post.path}
+  alternates={translation ? { [translation.lang]: translation.path } : {}}
+  image={post.teaser}
+  article={{ published: post.published, updated: post.updated, tags: post.tags }}
+  structuredData={blogPosting}
+  noindex={post.isDraft}>
+  <article class="post" data-pagefind-body>
+    <header class="post-header">
+      <h1 class="post-title">{post.title}</h1>
+      <p class="meta">
+        <time datetime={post.published.toISOString()}>{formatDate(post.published, lang)}</time>, {t.readTime(post.readMinutes)}
+        {post.isDraft && <strong>, {t.draft}</strong>}
+      </p>
+    </header>
+
+    {post.teaser && <img class="post-teaser" src={post.teaser} alt="" width="1200" height="675" />}
+
+    <div class="prose measure">
+      <Content />
+    </div>
+
+    <footer class="post-footer measure" data-pagefind-ignore>
+      {
+        post.tags.length > 0 && (
+          <p class="post-tags">
+            <span class="meta">{t.tags}</span>
+            {post.tags.map((tag) => (
+              <a href={`${pathOf("tags", lang)}#${tagSlug(tag)}`}>{tag}</a>
+            ))}
+          </p>
+        )
+      }
+      {
+        wasUpdated && (
+          <p class="meta">
+            {t.updated} <time datetime={post.updated.toISOString()}>{formatDate(post.updated, lang)}</time>
+          </p>
+        )
+      }
+      <Share lang={lang} url={post.url} title={post.title} />
+      <AuthorBox lang={lang} />
+    </footer>
+  </article>
+
+  <nav class="post-nav measure" aria-label={`${t.previousPost} / ${t.nextPost}`} data-pagefind-ignore>
+    {
+      older && (
+        <a class="post-nav-link" href={older.path} rel="prev">
+          <span class="meta">{t.previousPost}</span>
+          {older.title}
+        </a>
+      )
+    }
+    {
+      newer && (
+        <a class="post-nav-link post-nav-next" href={newer.path} rel="next">
+          <span class="meta">{t.nextPost}</span>
+          {newer.title}
+        </a>
+      )
+    }
+  </nav>
+
+  {
+    related.length > 0 && (
+      <section class="related measure" aria-labelledby="related-title" data-pagefind-ignore>
+        <h2 id="related-title">{t.related}</h2>
+        <ul>
+          {related.map((other) => (
+            <li>
+              <a href={other.path}>{other.title}</a>
+              {other.excerpt && <p class="meta">{other.excerpt}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</Base>
+
+<style>
+  .post-header {
+    max-width: 48rem;
+    padding-block: var(--space-l) var(--space-m);
+  }
+
+  .post-title {
+    margin: 0;
+    font-size: var(--step-4);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+
+  .post-header .meta {
+    margin: var(--space-s) 0 0;
+    font-size: 1rem;
+  }
+
+  .post-teaser {
+    display: block;
+    width: 100%;
+    max-width: 48rem;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    margin-bottom: var(--space-l);
+    border-radius: 4px;
+  }
+
+  .post-footer {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-m);
+    border-top: 1px solid var(--rule);
+  }
+
+  .post-footer > p {
+    margin: 0 0 var(--space-s);
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.9rem;
+    font-size: 1rem;
+  }
+
+  .post-nav {
+    display: grid;
+    gap: var(--space-m);
+    margin-top: var(--space-l);
+  }
+
+  @media (min-width: 40rem) {
+    .post-nav {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .post-nav-link {
+    display: grid;
+    gap: 0.25rem;
+    color: var(--ink);
+    text-decoration: none;
+    line-height: 1.35;
+  }
+
+  .post-nav-link:hover {
+    color: var(--accent);
+  }
+
+  .post-nav-next {
+    grid-column: -2;
+    text-align: right;
+  }
+
+  .related {
+    margin-top: var(--space-xl);
+  }
+
+  .related h2 {
+    font-size: var(--step-1);
+    margin: 0 0 var(--space-s);
+  }
+
+  .related ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .related li + li {
+    margin-top: var(--space-m);
+  }
+
+  .related a {
+    font-size: var(--step-1);
+    line-height: 1.3;
+  }
+
+  .related .meta {
+    margin: 0.25rem 0 0;
+    font-size: 1rem;
+  }
+</style>

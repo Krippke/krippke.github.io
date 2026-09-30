@@ -1,0 +1,142 @@
+---
+import { otherLang, pathOf } from "../i18n/routes.ts";
+import { ui } from "../i18n/ui.ts";
+import type { Lang } from "../lib/post-path.ts";
+import Search from "./Search.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+
+interface Props {
+  lang: Lang;
+  languageSwitchPath: string;
+  hasTranslation: boolean;
+}
+
+const { lang, languageSwitchPath, hasTranslation } = Astro.props;
+const t = ui[lang];
+const links = [
+  { href: pathOf("home", lang), label: t.nav.blog },
+  { href: pathOf("services", lang), label: t.nav.services },
+  { href: pathOf("about", lang), label: t.nav.about },
+  { href: pathOf("tags", lang), label: t.nav.tags },
+  { href: pathOf("contact", lang), label: t.nav.contact },
+];
+const current = Astro.url.pathname.replace(/\.html$/, "");
+const isCurrent = (href: string) =>
+  href === pathOf("home", lang) ? current === href || /^\/(de\/)?\d{4}\//.test(current) : current === href;
+---
+
+<header class="masthead page">
+  <a class="site-name" href={pathOf("home", lang)}>Manuel Holzrichter</a>
+  <nav aria-label="Main">
+    <ul class="nav-links">
+      {
+        links.map(({ href, label }) => (
+          <li>
+            <a href={href} aria-current={isCurrent(href) ? "page" : undefined}>
+              {label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+  <div class="tools">
+    <Search lang={lang} />
+    <ThemeToggle lang={lang} />
+    <a
+      class="language-switch"
+      href={languageSwitchPath}
+      hreflang={otherLang(lang)}
+      lang={otherLang(lang)}
+      title={hasTranslation ? t.switchLanguageLabel : undefined}>{t.switchLanguage}</a
+    >
+  </div>
+</header>
+
+<style>
+  .masthead {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "name tools"
+      "nav nav";
+    align-items: center;
+    gap: 0.5rem 1.5rem;
+    padding-block: 1.25rem 0;
+    font-size: 1rem;
+  }
+
+  @media (min-width: 52rem) {
+    .masthead {
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas: "name nav tools";
+      padding-block: 1.75rem;
+    }
+  }
+
+  .site-name {
+    grid-area: name;
+    color: var(--ink);
+    font-weight: 650;
+    font-size: 1.0625rem;
+    text-decoration: none;
+    letter-spacing: -0.005em;
+  }
+
+  nav {
+    grid-area: nav;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0.25rem 0 0.75rem;
+    list-style: none;
+    white-space: nowrap;
+  }
+
+  @media (min-width: 52rem) {
+    .nav-links {
+      justify-content: flex-end;
+      padding: 0;
+    }
+  }
+
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+
+  .nav-links a:hover,
+  .nav-links a[aria-current="page"] {
+    color: var(--ink);
+  }
+
+  .nav-links a[aria-current="page"] {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.35em;
+  }
+
+  .tools {
+    grid-area: tools;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .language-switch {
+    margin-left: 0.5rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: var(--step--1);
+  }
+
+  .language-switch:hover {
+    color: var(--ink);
+  }
+</style>

@@ -1,0 +1,9 @@
+---
+import { ui } from "../i18n/ui.ts";
+import TextPage from "../layouts/TextPage.astro";
+---
+
+<TextPage lang="en" title={ui.en.notFoundTitle} path="/404.html" noindex>
+  <p>{ui.en.notFoundText} <a href="/">{ui.en.notFoundLink}</a></p>
+  <p lang="de">{ui.de.notFoundText} <a href="/de/">{ui.de.notFoundLink}</a></p>
+</TextPage>

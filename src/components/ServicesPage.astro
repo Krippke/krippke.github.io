@@ -1,0 +1,240 @@
+---
+import { pathOf } from "../i18n/routes.ts";
+import Base from "../layouts/Base.astro";
+import type { Lang } from "../lib/post-path.ts";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const copy = {
+  en: {
+    title: "Services",
+    description:
+      "Code review, system design and technical sparring from a developer with 15+ years of experience in making software easy to change.",
+    lead: "I help teams keep their software easy to change.",
+    intro:
+      "Over the last 15 years I have taken over legacy systems, designed architectures and turned missing tests into a safety net. I offer that experience in three formats, in English or German.",
+    youGet: "What you get",
+    goodFit: "A good fit when",
+    offers: [
+      {
+        id: "code-review",
+        title: "Code review",
+        summary:
+          "I read your codebase or a set of pull requests and look for what makes changes slow and risky: concepts without a name, decisions spread across the system, responsibilities in the wrong layer, and gaps in the tests.",
+        youGet: "A written report with concrete findings, ordered by what they cost you, and next steps with code examples.",
+        goodFit: "A system has become hard to change, your team took over code it did not write, or a larger extension is coming up.",
+      },
+      {
+        id: "system-design",
+        title: "System design",
+        summary:
+          "Together we design a new system or the next step of an existing one: boundaries, responsibilities, integration with foreign systems and a testing strategy that carries the design.",
+        youGet: "An architecture sketch, short decision records for the important trade-offs, and a migration path when existing code is involved.",
+        goodFit: "You are starting a new product, splitting a monolith, or connecting systems you do not control.",
+      },
+      {
+        id: "sparring",
+        title: "Sparring",
+        summary:
+          "One-off or regular sessions to think through design questions, refactoring plans and trade-offs, or how your team works with AI.",
+        youGet: "A partner who questions assumptions and shares what worked, and what did not, in real projects.",
+        goodFit: "You lead a team without a technical peer, or a decision is too important to make alone.",
+      },
+    ],
+    stepsTitle: "How we start",
+    steps: [
+      "You write me a few lines about your situation.",
+      "We talk for half an hour and find out whether and how I can help.",
+      "I send you a proposal with scope, format and effort.",
+    ],
+    cta: "Tell me about your project",
+  },
+  de: {
+    title: "Leistungen",
+    description:
+      "Code Review, Systemdesign und technisches Sparring von einem Entwickler mit über 15 Jahren Erfahrung darin, Software änderbar zu halten.",
+    lead: "Ich helfe Teams, ihre Software änderbar zu halten.",
+    intro:
+      "In den letzten 15 Jahren habe ich Legacy-Systeme übernommen, Architekturen entworfen und fehlende Tests in ein Sicherheitsnetz verwandelt. Diese Erfahrung biete ich in drei Formaten an, auf Deutsch oder Englisch.",
+    youGet: "Was Sie bekommen",
+    goodFit: "Passt, wenn",
+    offers: [
+      {
+        id: "code-review",
+        title: "Code Review",
+        summary:
+          "Ich lese Ihre Codebasis oder eine Reihe von Pull Requests und suche nach dem, was Änderungen langsam und riskant macht: Konzepte ohne Namen, im System verteilte Entscheidungen, Verantwortlichkeiten auf der falschen Ebene und Lücken in den Tests.",
+        youGet: "Einen schriftlichen Bericht mit konkreten Befunden, geordnet nach ihren Kosten, und nächste Schritte mit Codebeispielen.",
+        goodFit: "Ein System ist schwer änderbar geworden, Ihr Team hat fremden Code übernommen oder eine größere Erweiterung steht an.",
+      },
+      {
+        id: "systemdesign",
+        title: "Systemdesign",
+        summary:
+          "Gemeinsam entwerfen wir ein neues System oder den nächsten Schritt eines bestehenden: Grenzen, Verantwortlichkeiten, Anbindung fremder Systeme und eine Teststrategie, die den Entwurf trägt.",
+        youGet: "Eine Architekturskizze, kurze Entscheidungsdokumente für die wichtigen Abwägungen und einen Migrationspfad, wenn bestehender Code betroffen ist.",
+        goodFit: "Sie starten ein neues Produkt, teilen einen Monolithen auf oder binden Systeme an, die Sie nicht kontrollieren.",
+      },
+      {
+        id: "sparring",
+        title: "Sparring",
+        summary:
+          "Einzelne oder regelmäßige Termine, in denen wir Designfragen, Refactoring-Pläne und Abwägungen durchdenken, oder wie Ihr Team mit KI arbeitet.",
+        youGet: "Einen Partner, der Annahmen hinterfragt und teilt, was in echten Projekten funktioniert hat und was nicht.",
+        goodFit: "Sie leiten ein Team ohne technisches Gegenüber, oder eine Entscheidung ist zu wichtig, um sie allein zu treffen.",
+      },
+    ],
+    stepsTitle: "So fangen wir an",
+    steps: [
+      "Sie schreiben mir ein paar Zeilen zu Ihrer Situation.",
+      "Wir sprechen eine halbe Stunde und klären, ob und wie ich helfen kann.",
+      "Ich schicke Ihnen ein Angebot mit Umfang, Format und Aufwand.",
+    ],
+    cta: "Erzählen Sie mir von Ihrem Projekt",
+  },
+}[lang];
+---
+
+<Base
+  lang={lang}
+  title={copy.title}
+  description={copy.description}
+  path={pathOf("services", lang)}
+  alternates={{ en: pathOf("services", "en"), de: pathOf("services", "de") }}>
+  <header class="services-header">
+    <h1>{copy.title}</h1>
+    <p class="lead">{copy.lead}</p>
+    <p class="intro measure">{copy.intro}</p>
+  </header>
+
+  <div class="offers">
+    {
+      copy.offers.map((offer) => (
+        <section class="offer" id={offer.id} aria-labelledby={`${offer.id}-title`}>
+          <h2 id={`${offer.id}-title`}>{offer.title}</h2>
+          <div class="offer-body">
+            <p>{offer.summary}</p>
+            <dl>
+              <dt>{copy.youGet}</dt>
+              <dd>{offer.youGet}</dd>
+              <dt>{copy.goodFit}</dt>
+              <dd>{offer.goodFit}</dd>
+            </dl>
+          </div>
+        </section>
+      ))
+    }
+  </div>
+
+  <section class="start measure" aria-labelledby="start-title">
+    <h2 id="start-title">{copy.stepsTitle}</h2>
+    <ol>
+      {copy.steps.map((step) => <li>{step}</li>)}
+    </ol>
+    <a class="cta" href={pathOf("contact", lang)}>{copy.cta}</a>
+  </section>
+</Base>
+
+<style>
+  .services-header {
+    padding-block: var(--space-l) var(--space-l);
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: var(--step-1);
+    font-weight: 600;
+  }
+
+  .lead {
+    max-width: 18em;
+    margin: var(--space-s) 0 0;
+    font-size: var(--step-5);
+    line-height: 1.08;
+    letter-spacing: -0.018em;
+  }
+
+  .intro {
+    margin: var(--space-m) 0 0;
+    color: var(--ink-soft);
+    font-size: var(--step-1);
+  }
+
+  .offer {
+    display: grid;
+    gap: 0 2rem;
+    padding-block: var(--space-l);
+    border-top: 1px solid var(--rule);
+    scroll-margin-top: 1rem;
+  }
+
+  @media (min-width: 52rem) {
+    .offer {
+      grid-template-columns: 16rem minmax(0, var(--measure));
+    }
+  }
+
+  .offer h2 {
+    margin: 0 0 var(--space-s);
+    font-size: var(--step-3);
+    font-weight: 500;
+    line-height: 1.1;
+  }
+
+  .offer-body p {
+    margin: 0;
+  }
+
+  dl {
+    margin: var(--space-m) 0 0;
+  }
+
+  dt {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0.15rem 0 var(--space-s);
+    color: var(--ink-soft);
+  }
+
+  .start {
+    padding-top: var(--space-l);
+    border-top: 1px solid var(--rule);
+  }
+
+  .start h2 {
+    margin: 0 0 var(--space-s);
+    font-size: var(--step-2);
+  }
+
+  .start ol {
+    padding-left: 1.4em;
+  }
+
+  .start li + li {
+    margin-top: 0.4em;
+  }
+
+  .cta {
+    display: inline-block;
+    margin-top: var(--space-m);
+    padding: 0.75rem 1.35rem;
+    border-radius: 4px;
+    background: var(--accent);
+    color: var(--paper);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .cta:hover {
+    background: var(--accent-hover);
+    color: var(--paper);
+  }
+</style>

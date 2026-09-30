@@ -1,0 +1,38 @@
+---
+import type { Lang } from "../lib/post-path.ts";
+import Base from "./Base.astro";
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description?: string;
+  path: string;
+  alternates?: Partial<Record<Lang, string>>;
+  noindex?: boolean;
+}
+
+const { title, ...baseProps } = Astro.props;
+---
+
+<Base title={title} {...baseProps}>
+  <article class="text-page">
+    <h1 class="text-page-title">{title}</h1>
+    <div class="prose measure">
+      <slot />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .text-page {
+    padding-top: var(--space-l);
+  }
+
+  .text-page-title {
+    max-width: 48rem;
+    margin: 0 0 var(--space-m);
+    font-size: var(--step-4);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+</style>
