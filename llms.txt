@@ -6,6 +6,7 @@ The site is a static Jekyll blog at https://www.manuel-holzrichter.de. All posts
 
 ## Posts
 
+- [The hidden cost of unmaintainable code](https://www.manuel-holzrichter.de/2026/09/30/the-hidden-cost-of-unmaintainable-code/): Unmaintainable code does not fail loudly - it makes every change slower, riskier and more frightening. What it really costs, and how to turn legacy code back into simple, boring code.
 - [Why I never tell AI what to do](https://www.manuel-holzrichter.de/2026/04/26/why-i-never-tell-ai-what-to-do/): Stop giving AI instructions. Describing the problem and asking questions first produces better results — the AI knows patterns, you know your context.
 - [Foreign systems will change - here's how to be ready](https://www.manuel-holzrichter.de/2026/03/29/foreign-systems-will-change-heres-how-to-be-ready/): External APIs will change without warning. How adapters and hexagonal architecture keep foreign systems at the boundary of your codebase.
 - [Why your software project is behind schedule (and over budget)](https://www.manuel-holzrichter.de/2026/03/06/why-software-projects-are-behind-schedule-and-over-budget/): Software projects rarely fail on technical work. They fail on long feedback loops, unvalidated trust, and gut-feeling estimates — all three fixable.

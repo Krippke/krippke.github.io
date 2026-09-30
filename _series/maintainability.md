@@ -65,14 +65,14 @@ Alle Posts verwenden dieselbe Domäne und dieselben Namen. Code in Kotlin (Legac
 
 | # | Veröffentlichung | Datei | Kernfrage | Hauptreferenz |
 |---|---|---|---|---|
-| 0 | Di, 06.10.2026 | `the-hidden-cost-of-unmaintainable-code.md` | Was kostet unwartbarer Code wirklich, und wie komme ich da raus? | - |
-| 1 | Di, 13.10.2026 | `refactoring-legacy-code-without-fear.md` | Wie bekomme ich ein Sicherheitsnetz in ein System ohne Tests? | Feathers, *Working Effectively with Legacy Code* |
-| 2 | Di, 20.10.2026 | `making-implicit-concepts-explicit.md` | Wie finde ich implizite Konzepte und bilde sie ab? | Evans, *Domain-Driven Design*, Kap. 9 |
-| 3 | Di, 27.10.2026 | `one-decision-one-place.md` | Warum driften verteilte Entscheidungen, und wann ist Doppelung keine? | Hunt & Thomas (DRY), Sandi Metz |
-| 4 | Di, 03.11.2026 | `one-responsibility-per-component.md` | Woran erkenne ich, dass eine Komponente geteilt werden muss? | Martin (SRP), Ousterhout |
-| 5 | Di, 10.11.2026 | `responsibilities-in-the-right-layer.md` | Welche Verantwortung gehört auf welche Ebene? | Cockburn, Martin (Clean Architecture) |
+| 0 | Mi, 30.09.2026 | `the-hidden-cost-of-unmaintainable-code.md` | Was kostet unwartbarer Code wirklich, und wie komme ich da raus? | - |
+| 1 | Mi, 07.10.2026 | `refactoring-legacy-code-without-fear.md` | Wie bekomme ich ein Sicherheitsnetz in ein System ohne Tests? | Feathers, *Working Effectively with Legacy Code* |
+| 2 | Mi, 14.10.2026 | `making-implicit-concepts-explicit.md` | Wie finde ich implizite Konzepte und bilde sie ab? | Evans, *Domain-Driven Design*, Kap. 9 |
+| 3 | Mi, 21.10.2026 | `one-decision-one-place.md` | Warum driften verteilte Entscheidungen, und wann ist Doppelung keine? | Hunt & Thomas (DRY), Sandi Metz |
+| 4 | Mi, 28.10.2026 | `one-responsibility-per-component.md` | Woran erkenne ich, dass eine Komponente geteilt werden muss? | Martin (SRP), Ousterhout |
+| 5 | Mi, 04.11.2026 | `responsibilities-in-the-right-layer.md` | Welche Verantwortung gehört auf welche Ebene? | Cockburn, Martin (Clean Architecture) |
 
-Ein Post pro Woche, jeweils dienstags, manuell gepusht.
+Ein Post pro Woche, jeweils mittwochs, manuell gepusht.
 
 ## Konventionen
 
