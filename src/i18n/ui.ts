@@ -3,7 +3,7 @@ import type { Lang } from "../lib/post-path.ts";
 const en = {
   siteDescription:
     "Pragmatic software engineering — exploring architecture, clear responsibilities, and what makes developers truly effective. Insights from 15+ years of hands-on experience.",
-  authorIntro: "I’m Manuel Holzrichter. I have been building software for over 15 years.",
+  authorIntro: "I’m Manuel. I have been building software for over 15 years.",
   authorBio: "Curious about everything in tech.",
   locale: "en_US",
   languageName: "English",
@@ -43,7 +43,7 @@ type Ui = typeof en;
 const de: Ui = {
   siteDescription:
     "Pragmatische Softwareentwicklung — Architektur, klare Verantwortlichkeiten und was Entwickler wirklich effektiv macht. Aus über 15 Jahren Praxis.",
-  authorIntro: "Ich bin Manuel Holzrichter, Softwareentwickler seit über 15 Jahren.",
+  authorIntro: "Ich bin Manuel, Softwareentwickler seit über 15 Jahren.",
   authorBio: "Neugierig auf alles, was Technik ausmacht.",
   locale: "de_DE",
   languageName: "Deutsch",
