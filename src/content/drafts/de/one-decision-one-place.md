@@ -143,8 +143,8 @@ Die Frage ist also nie: „Sehen die gleich aus?“ Die Frage ist: „Ist das di
 
 **Systemgrenzen überschreiten.** Frontend, Report und E-Mail-Template gehören oft verschiedenen Personen oder Teams. Die Entscheidung zusammenzuführen heißt, sich darauf zu einigen, wem sie gehört und wer nach ihr fragt. Dieses Gespräch ist schwieriger als der Code, und wertvoller.
 
-## Die Ruhe des einen Ortes
+## Die Zufriedenheit des einen Ortes
 
-Es gibt eine besondere Art von Ruhe, die entsteht, wenn du eine doppelte Entscheidung an einem Ort zusammenführst. Ich weiß, dass der nächste Entwickler, der die Rückgabefrist ändert, keinen Bug im Frontend, im Report oder in der E-Mail erzeugen wird. Nicht, weil er sorgfältig ist, nicht, weil er die Codebasis kennt, sondern weil es nur einen Ort gibt, den er ändern muss.
+Es gibt eine besondere Art von Zufriedenheit, die entsteht, wenn du eine doppelte Entscheidung an einem Ort zusammenführst. Ich weiß, dass der nächste Entwickler, der die Rückgabefrist ändert, keinen Bug im Frontend, im Report oder in der E-Mail erzeugen wird. Nicht, weil er sorgfältig ist, nicht, weil er die Codebasis kennt, sondern weil es nur einen Ort gibt, den er ändern muss.
 
 Das meine ich mit wartbarem Code. Es geht nicht um Eleganz. Es geht darum, Gelegenheiten für Fehler zu beseitigen, damit die Leute, die nach uns kommen, nicht perfekt sein müssen.

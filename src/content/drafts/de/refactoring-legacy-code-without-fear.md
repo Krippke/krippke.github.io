@@ -136,7 +136,7 @@ So werden aus Charakterisierungstests mit der Zeit Spezifikationen.
 
 ## Erst trennen, dann ersetzen
 
-Für die Orchestrierung in `request_return` – Bestellung laden, Regel prüfen, Status aktualisieren, Mail verschicken – muss der Entwickler in den Tests immer noch die Datenbank und den Mailer ersetzen.
+Für die Orchestrierung in `requestReturn` – Bestellung laden, Regel prüfen, Status aktualisieren, Mail verschicken – muss der Entwickler in den Tests immer noch die Datenbank und den Mailer ersetzen.
 
 Rohe SQL-Aufrufe zu faken ist mühsam und fragil. Statt also das `JdbcTemplate` zu mocken, verschiebe ich die Abfragen hinter ein `OrderRepository` mit `get` und `save` und den Mailversand hinter einen `CustomerNotifications`-Port. Für beide gibt es einfache In-Memory-Implementierungen für die Tests. Der Service weiß danach überhaupt nichts mehr von SQL und SMTP.
 

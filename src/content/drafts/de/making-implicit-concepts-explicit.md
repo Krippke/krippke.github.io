@@ -182,6 +182,6 @@ Du könntest diese Testnamen der Leitung des Kundenservice zeigen, und sie würd
 
 Von all der Arbeit, die nötig ist, um ein Legacy-System wartbar zu machen, ist das mein Lieblingsteil. Ein implizites Konzept zu finden fühlt sich an, als fände man das fehlende Puzzleteil. Plötzlich ergeben die seltsamen Umwege im Code einen Sinn: Sie alle haben um etwas herumgearbeitet, das keinen Namen hatte.
 
-Dann kommt die Frage, wie sich dieses Konzept in der Struktur des Codes ausdrücken lässt. Ein Value Object? Eine Policy? Ein Zustand? Und dann der Moment, in dem ich den alten Code durch das neue Konzept ersetze und ein Knäuel aus Bedingungen zu ein paar Zeilen zusammenschrumpft, die sich wie ein Satz aus dem Fachbereich lesen.
+Dann kommt die Frage, wie sich dieses Konzept in der Struktur des Codes ausdrücken lässt. Ein Value Object? Eine Policy? Ein Zustand? Und dann der Moment, in dem ich den alten Code durch das neue Konzept ersetze und ein Gewusel aus Bedingungen zu ein paar Zeilen zusammenschrumpft, die sich wie ein Satz aus dem Fachbereich lesen.
 
 Komplizierter Code wird einfach, schön und stabil. Nicht weil jemand besonders schlau war, sondern weil der Code endlich sagt, was er meint.

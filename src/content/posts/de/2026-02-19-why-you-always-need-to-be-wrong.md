@@ -14,7 +14,7 @@ Ich deployte auf die Dev-Umgebung. Und da war es. Ich hatte Stellen übersehen. 
 
 Diese Frage hat mich länger beschäftigt als der Bug selbst. Ich hatte aufgepasst. Ich war nicht schlampig. Was war also passiert?
 
-Nachdem ich eine Weile darüber nachgedacht hatte, wurde mir klar: Das Problem lag nicht in meinem Vorgehen. Es lag in meiner Annahme. Ich war davon ausgegangen, dass ich richtiglag. Ich hatte den Code nach einer Bestätigung abgesucht, dass ich alles erwischt hatte, statt aktiv nach dem zu jagen, was ich übersehen haben könnte. Mein Gehirn hatte schon entschieden, dass die Arbeit erledigt war. Es suchte nur noch nach der Erlaubnis, weiterzumachen.
+Nachdem ich eine Weile darüber nachgedacht hatte, wurde mir klar: Das Problem lag nicht in meinem Vorgehen. Es lag in meiner Annahme. Ich war davon ausgegangen, dass ich richtiglag. Ich hatte den Code nach einer Bestätigung abgesucht, dass ich alles erwischt hatte, statt aktiv nach dem zu suchen, was ich übersehen haben könnte. Mein Gehirn hatte schon entschieden, dass die Arbeit erledigt war. Es suchte nur noch nach der Erlaubnis, weiterzumachen.
 
 An diesem Tag habe ich die Grundannahme geändert. Ich ging nicht mehr davon aus, dass ich richtiglag. Ich ging davon aus, dass ich falschlag. Und der Unterschied ist wie Tag und Nacht.
 
@@ -58,7 +58,7 @@ Damit das klar ist: Das ist kein Selbstzweifel. Ich zweifle nicht daran, ob ich 
 
 ## Falschliegen, um richtigzuliegen
 
-Hier steckt ein leises Paradox. Die Menschen, die davon ausgehen, dass sie falschliegen, liegen am Ende am häufigsten richtig. Sie überprüfen. Sie kontrollieren. Sie jagen den Fehler, statt zu hoffen, dass es ihn nicht gibt.
+Hier steckt ein kleines Paradox. Die Menschen, die davon ausgehen, dass sie falschliegen, liegen am Ende am häufigsten richtig. Sie überprüfen. Sie kontrollieren. Sie suchen den Fehler, statt zu hoffen, dass es ihn nicht gibt.
 
 Der Wechsel der Denkweise passt in einen Satz. Hör auf zu fragen „Habe ich das richtig gemacht?“ und frag stattdessen „Wo habe ich Mist gebaut?“
 
