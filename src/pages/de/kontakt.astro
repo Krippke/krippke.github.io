@@ -1,0 +1,25 @@
+---
+import { CONTACT_EMAIL } from "../../i18n/routes.ts";
+import TextPage from "../../layouts/TextPage.astro";
+---
+
+<TextPage
+  lang="de"
+  title="Kontakt"
+  description="So erreichen Sie Manuel Holzrichter: Fragen zu Beiträgen oder eine Beschreibung für ein Code- oder Design-Review."
+  path="/de/kontakt"
+  alternates={{ en: "/contact" }}>
+  <p>
+    Ich freue mich über jede Nachricht, ob Frage zu einem Beitrag, Idee für eine Zusammenarbeit oder eine Beschreibung für eine meiner
+    <a href="/de/leistungen">Leistungen</a>.
+  </p>
+  <p>Schreiben Sie mir eine E-Mail, ich melde mich so schnell wie möglich.</p>
+  <p class="contact-email"><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
+  <p class="meta">Was mit Ihrer E-Mail passiert, steht in der <a href="/de/datenschutz">Datenschutzerklärung</a>.</p>
+</TextPage>
+
+<style>
+  .contact-email {
+    font-size: var(--step-2);
+  }
+</style>

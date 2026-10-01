@@ -1,0 +1,147 @@
+---
+import { ui } from "../i18n/ui.ts";
+import type { Lang } from "../lib/post-path.ts";
+import type { Post } from "../lib/posts.ts";
+
+interface Props {
+  posts: Post[];
+  lang: Lang;
+}
+
+const { posts, lang } = Astro.props;
+const t = ui[lang];
+const years = Map.groupBy(posts, (post) => post.date.slice(0, 4));
+const dayAndMonth = (post: Post) => {
+  const date = new Date(`${post.date}T00:00:00Z`);
+  const month = new Intl.DateTimeFormat(lang === "en" ? "en-US" : "de-DE", { month: "short", timeZone: "UTC" }).format(date);
+  return `${date.getUTCDate()} ${month}`;
+};
+---
+
+<div class="log">
+  {
+    [...years].map(([year, postsOfYear]) => (
+      <section class="year" aria-labelledby={`year-${year}`}>
+        <h2 class="year-number" id={`year-${year}`}>
+          {year}
+        </h2>
+        <ol class="entries">
+          {postsOfYear.map((post) => (
+            <li class="entry" lang={post.lang === lang ? undefined : post.lang}>
+              <time class="entry-date meta" datetime={post.date}>
+                {dayAndMonth(post)}
+              </time>
+              <div>
+                <h3 class="entry-title">
+                  <a href={post.path}>{post.title}</a>
+                  {post.isDraft && <span class="draft">{t.draft}</span>}
+                </h3>
+                {post.excerpt && <p class="entry-excerpt">{post.excerpt}</p>}
+                <p class="meta entry-read">{ui[post.lang].readTime(post.readMinutes)}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  .year {
+    display: grid;
+    gap: 0 2rem;
+    padding-block: var(--space-m);
+    border-top: 1px solid var(--rule);
+  }
+
+  @media (min-width: 52rem) {
+    .year {
+      grid-template-columns: 9rem minmax(0, 1fr);
+      padding-block: var(--space-l);
+    }
+  }
+
+  .year-number {
+    margin: 0 0 var(--space-s);
+    color: var(--ink-soft);
+    font-size: var(--step-3);
+    font-weight: 300;
+    line-height: 1;
+    font-variant-numeric: lining-nums tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 52rem) {
+    .year-number {
+      position: sticky;
+      top: 1.5rem;
+      align-self: start;
+      font-size: 3.75rem;
+    }
+  }
+
+  .entries {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .entry {
+    display: grid;
+    gap: 0.25rem 1.5rem;
+    max-width: 50rem;
+  }
+
+  .entry + .entry {
+    margin-top: var(--space-l);
+  }
+
+  @media (min-width: 40rem) {
+    .entry {
+      grid-template-columns: 4.5rem minmax(0, 1fr);
+    }
+  }
+
+  .entry-date {
+    padding-top: 0.45rem;
+  }
+
+  .entry-title {
+    margin: 0;
+    font-size: var(--step-2);
+    line-height: 1.25;
+  }
+
+  .entry-title a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .entry-title a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 0.06em;
+  }
+
+  .entry-excerpt {
+    margin: 0.4rem 0 0;
+    max-width: var(--measure);
+    color: var(--ink-soft);
+  }
+
+  .entry-read {
+    margin: 0.35rem 0 0;
+  }
+
+  .draft {
+    margin-left: 0.5rem;
+    padding: 0.1em 0.4em;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    color: var(--ink-soft);
+    font-size: var(--step--1);
+    font-weight: 400;
+    vertical-align: middle;
+  }
+</style>

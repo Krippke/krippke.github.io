@@ -1,0 +1,31 @@
+---
+import { ui } from "../../i18n/ui.ts";
+import TextPage from "../../layouts/TextPage.astro";
+---
+
+<TextPage
+  lang="de"
+  title="Über mich"
+  description="Manuel Holzrichter entwickelt seit über 15 Jahren Software und schreibt über Architektur, Tests und effektive Entwicklung."
+  path="/de/ueber-mich"
+  alternates={{ en: "/about" }}>
+  <p>{ui.de.authorIntro}</p>
+  <p>
+    In meiner Laufbahn habe ich mit vielen Technologien gearbeitet und mich nie auf einen einzelnen Stack beschränkt. Was mich antreibt, ist
+    Neugier: verstehen, wie Dinge funktionieren, warum manche Ansätze aufgehen und was Softwareteams wirklich effektiv macht.
+  </p>
+  <p>Über die Jahre sind ein paar Themen zum Kern meiner Arbeit geworden:</p>
+  <ul>
+    <li><strong>Softwarearchitektur</strong> — Systeme mit klaren Grenzen und Verantwortlichkeiten entwerfen</li>
+    <li><strong>Automatisierte Tests</strong> — Tests als Definition von Verhalten, nicht als Nachgedanke</li>
+    <li><strong>Kommunikation</strong> — die Lücke zwischen Entwicklungsteams und Stakeholdern schließen</li>
+  </ul>
+  <p>
+    In diesem Blog teile ich, was ich dabei gelernt habe. Keine Lehrbuchtheorie, sondern Erfahrungen aus echten Projekten — die Dinge, die
+    ich selbst gern früher gewusst hätte.
+  </p>
+  <p>
+    Wenn Sie diese Erfahrung für Ihre eigene Codebasis nutzen möchten, finden Sie meine <a href="/de/leistungen">Leistungen</a> hier. Wie Sie
+    mich erreichen, steht auf der <a href="/de/kontakt">Kontaktseite</a>.
+  </p>
+</TextPage>

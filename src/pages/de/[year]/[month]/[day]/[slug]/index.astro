@@ -1,0 +1,12 @@
+---
+import PostPage from "../../../../../../components/PostPage.astro";
+import { getAllPosts, type Post, postStaticPaths } from "../../../../../../lib/posts.ts";
+
+export async function getStaticPaths() {
+  return postStaticPaths(await getAllPosts(), "de");
+}
+
+const { post, posts } = Astro.props as { post: Post; posts: Post[] };
+---
+
+<PostPage post={post} posts={posts} />

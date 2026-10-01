@@ -1,0 +1,254 @@
+---
+import { pathOf } from "../i18n/routes.ts";
+import Base from "../layouts/Base.astro";
+import type { Lang } from "../lib/post-path.ts";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const copy = {
+  en: {
+    title: "Services",
+    description:
+      "Asynchronous code reviews, pull request reviews, design reviews and written second opinions from a developer who has been building software for over 15 years.",
+    lead: "I help teams keep their software easy to change.",
+    intro:
+      "Everything happens in writing and at your pace: you send a brief and access, I send back written results. No meetings to schedule, in English or German.",
+    youGet: "What you get",
+    goodFit: "A good fit when",
+    offers: [
+      {
+        id: "codebase-review",
+        title: "Codebase review",
+        summary:
+          "I read your codebase and look for what makes changes slow and risky: concepts without a name, decisions spread across the system, responsibilities in the wrong layer, and gaps in the tests.",
+        youGet: "A written report with findings ordered by what they cost you, next steps with code examples, and answers to follow-up questions by email.",
+        goodFit: "A system has become hard to change, your team took over code it did not write, or a larger extension is coming up.",
+      },
+      {
+        id: "pull-request-reviews",
+        title: "Pull request reviews",
+        summary:
+          "I review your team’s pull requests on GitHub or GitLab, with the same eye for structure, naming and tests, so problems are caught before they are merged.",
+        youGet: "Review comments directly on the pull request within an agreed number of business days.",
+        goodFit: "Your team wants a second reviewer with architecture experience, or you want to raise the bar for new code while the legacy is being cleaned up.",
+      },
+      {
+        id: "design-review",
+        title: "Design review",
+        summary:
+          "You send a design document, architecture decision records or a repository. I check boundaries, responsibilities, integration with foreign systems and whether the testing strategy carries the design.",
+        youGet: "Written feedback with risks, alternatives and short decision records for the important trade-offs.",
+        goodFit: "You are starting a new product, splitting a monolith, or connecting systems you do not control.",
+      },
+      {
+        id: "second-opinion",
+        title: "Written second opinion",
+        summary: "One technical question or decision, with the context that matters. I think it through and write down what I would do and why.",
+        youGet: "A written answer within a few business days, including the assumptions it depends on.",
+        goodFit: "You lead a team without a technical peer, or a decision is too important to make alone.",
+      },
+    ],
+    stepsTitle: "How we start",
+    steps: [
+      "You send me a short brief by email: your situation, your goal and the size of the codebase.",
+      "I reply in writing with questions and a fixed-price offer for the agreed scope.",
+      "You grant access, and you get the results in writing.",
+    ],
+    cta: "Send me your brief",
+  },
+  de: {
+    title: "Leistungen",
+    description:
+      "Asynchrone Code Reviews, Pull-Request-Reviews, Design Reviews und schriftliche Zweitmeinungen von einem Entwickler, der seit über 15 Jahren Software entwickelt.",
+    lead: "Ich helfe Teams, ihre Software änderbar zu halten.",
+    intro:
+      "Alles läuft schriftlich und in Ihrem Tempo: Sie schicken eine kurze Beschreibung und Zugang, ich schicke schriftliche Ergebnisse zurück. Keine Termine, auf Deutsch oder Englisch.",
+    youGet: "Was Sie bekommen",
+    goodFit: "Passt, wenn",
+    offers: [
+      {
+        id: "codebase-review",
+        title: "Codebase Review",
+        summary:
+          "Ich lese Ihre Codebasis und suche nach dem, was Änderungen langsam und riskant macht: Konzepte ohne Namen, im System verteilte Entscheidungen, Verantwortlichkeiten auf der falschen Ebene und Lücken in den Tests.",
+        youGet: "Einen schriftlichen Bericht mit Befunden, geordnet nach ihren Kosten, nächste Schritte mit Codebeispielen und Antworten auf Rückfragen per E-Mail.",
+        goodFit: "Ein System ist schwer änderbar geworden, Ihr Team hat fremden Code übernommen oder eine größere Erweiterung steht an.",
+      },
+      {
+        id: "pull-request-reviews",
+        title: "Pull-Request-Reviews",
+        summary:
+          "Ich reviewe die Pull Requests Ihres Teams auf GitHub oder GitLab, mit demselben Blick für Struktur, Benennung und Tests, damit Probleme vor dem Merge auffallen.",
+        youGet: "Review-Kommentare direkt am Pull Request, innerhalb einer vereinbarten Zahl von Werktagen.",
+        goodFit: "Ihr Team möchte einen zweiten Reviewer mit Architekturerfahrung, oder neuer Code soll besser werden, während die Altlasten aufgeräumt werden.",
+      },
+      {
+        id: "design-review",
+        title: "Design Review",
+        summary:
+          "Sie schicken ein Designdokument, Architekturentscheidungen oder ein Repository. Ich prüfe Grenzen, Verantwortlichkeiten, die Anbindung fremder Systeme und ob die Teststrategie den Entwurf trägt.",
+        youGet: "Schriftliches Feedback mit Risiken, Alternativen und kurzen Entscheidungsdokumenten für die wichtigen Abwägungen.",
+        goodFit: "Sie starten ein neues Produkt, teilen einen Monolithen auf oder binden Systeme an, die Sie nicht kontrollieren.",
+      },
+      {
+        id: "zweitmeinung",
+        title: "Schriftliche Zweitmeinung",
+        summary: "Eine technische Frage oder Entscheidung, mit dem Kontext, auf den es ankommt. Ich denke sie durch und schreibe auf, was ich tun würde und warum.",
+        youGet: "Eine schriftliche Antwort innerhalb weniger Werktage, mit den Annahmen, auf denen sie beruht.",
+        goodFit: "Sie leiten ein Team ohne technisches Gegenüber, oder eine Entscheidung ist zu wichtig, um sie allein zu treffen.",
+      },
+    ],
+    stepsTitle: "So fangen wir an",
+    steps: [
+      "Sie schicken mir eine kurze Beschreibung per E-Mail: Ihre Situation, Ihr Ziel und die Größe der Codebasis.",
+      "Ich antworte schriftlich mit Rückfragen und einem Festpreisangebot für den vereinbarten Umfang.",
+      "Sie geben mir Zugang und bekommen die Ergebnisse schriftlich.",
+    ],
+    cta: "Beschreibung schicken",
+  },
+}[lang];
+---
+
+<Base
+  lang={lang}
+  title={copy.title}
+  description={copy.description}
+  path={pathOf("services", lang)}
+  alternates={{ en: pathOf("services", "en"), de: pathOf("services", "de") }}>
+  <header class="services-header">
+    <h1>{copy.title}</h1>
+    <p class="lead">{copy.lead}</p>
+    <p class="intro measure">{copy.intro}</p>
+  </header>
+
+  <div class="offers">
+    {
+      copy.offers.map((offer) => (
+        <section class="offer" id={offer.id} aria-labelledby={`${offer.id}-title`}>
+          <h2 id={`${offer.id}-title`}>{offer.title}</h2>
+          <div class="offer-body">
+            <p>{offer.summary}</p>
+            <dl>
+              <dt>{copy.youGet}</dt>
+              <dd>{offer.youGet}</dd>
+              <dt>{copy.goodFit}</dt>
+              <dd>{offer.goodFit}</dd>
+            </dl>
+          </div>
+        </section>
+      ))
+    }
+  </div>
+
+  <section class="start measure" aria-labelledby="start-title">
+    <h2 id="start-title">{copy.stepsTitle}</h2>
+    <ol>
+      {copy.steps.map((step) => <li>{step}</li>)}
+    </ol>
+    <a class="cta" href={pathOf("contact", lang)}>{copy.cta}</a>
+  </section>
+</Base>
+
+<style>
+  .services-header {
+    padding-block: var(--space-l) var(--space-l);
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: var(--step-1);
+    font-weight: 600;
+  }
+
+  .lead {
+    max-width: 18em;
+    margin: var(--space-s) 0 0;
+    font-size: var(--step-5);
+    line-height: 1.08;
+    letter-spacing: -0.018em;
+  }
+
+  .intro {
+    margin: var(--space-m) 0 0;
+    color: var(--ink-soft);
+    font-size: var(--step-1);
+  }
+
+  .offer {
+    display: grid;
+    gap: 0 2rem;
+    padding-block: var(--space-l);
+    border-top: 1px solid var(--rule);
+    scroll-margin-top: 1rem;
+  }
+
+  @media (min-width: 52rem) {
+    .offer {
+      grid-template-columns: 16rem minmax(0, var(--measure));
+    }
+  }
+
+  .offer h2 {
+    margin: 0 0 var(--space-s);
+    font-size: var(--step-3);
+    font-weight: 500;
+    line-height: 1.1;
+  }
+
+  .offer-body p {
+    margin: 0;
+  }
+
+  dl {
+    margin: var(--space-m) 0 0;
+  }
+
+  dt {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0.15rem 0 var(--space-s);
+    color: var(--ink-soft);
+  }
+
+  .start {
+    padding-top: var(--space-l);
+    border-top: 1px solid var(--rule);
+  }
+
+  .start h2 {
+    margin: 0 0 var(--space-s);
+    font-size: var(--step-2);
+  }
+
+  .start ol {
+    padding-left: 1.4em;
+  }
+
+  .start li + li {
+    margin-top: 0.4em;
+  }
+
+  .cta {
+    display: inline-block;
+    margin-top: var(--space-m);
+    padding: 0.75rem 1.35rem;
+    border-radius: 4px;
+    background: var(--accent);
+    color: var(--paper);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .cta:hover {
+    background: var(--accent-hover);
+    color: var(--paper);
+  }
+</style>

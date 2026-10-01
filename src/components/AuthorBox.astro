@@ -1,0 +1,49 @@
+---
+import { pathOf } from "../i18n/routes.ts";
+import { ui } from "../i18n/ui.ts";
+import type { Lang } from "../lib/post-path.ts";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+
+<aside class="author" aria-label={t.writtenBy}>
+  <p>
+    <span class="meta">{t.writtenBy}</span>
+    <a class="author-name" href={pathOf("about", lang)}>Manuel Holzrichter</a>
+  </p>
+  <p class="meta">
+    {t.authorBio} <a href="https://github.com/Krippke">GitHub</a>
+  </p>
+</aside>
+
+<style>
+  .author {
+    padding: var(--space-m) 0 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .author p {
+    margin: 0;
+  }
+
+  .author p:first-child {
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+  }
+
+  .author-name {
+    color: var(--ink);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .author .meta {
+    font-size: 1rem;
+  }
+</style>

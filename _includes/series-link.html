@@ -1,2 +1,0 @@
-{%- assign series_post = site.posts | where: "slug", include.slug | first -%}
-{%- if series_post -%}<a href="{{ series_post.url | absolute_url }}">{{ include.text }}</a>{%- else -%}{{ include.text }}{{ include.pending }}{%- endif -%}

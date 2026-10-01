@@ -1,0 +1,20 @@
+---
+import { CONTACT_EMAIL } from "../../i18n/routes.ts";
+import TextPage from "../../layouts/TextPage.astro";
+---
+
+<TextPage lang="de" title="Impressum" description="Impressum von manuel-holzrichter.de" path="/de/impressum">
+  <h2>Angaben gemäß § 5 DDG</h2>
+  <p>
+    Manuel Holzrichter<br />
+    Heerstr. 9<br />
+    73453 Abtsgmünd<br />
+    Deutschland
+  </p>
+
+  <h2>Kontakt</h2>
+  <p>E-Mail: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
+
+  <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+  <p>Manuel Holzrichter, Anschrift wie oben</p>
+</TextPage>

@@ -1,0 +1,42 @@
+---
+import { ui } from "../i18n/ui.ts";
+import type { Lang } from "../lib/post-path.ts";
+
+interface Props {
+  lang: Lang;
+  url: string;
+  title: string;
+}
+
+const { lang, url, title } = Astro.props;
+const t = ui[lang];
+const encodedUrl = encodeURIComponent(url);
+const encodedText = encodeURIComponent(`${title} ${url}`);
+const targets = [
+  { label: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}` },
+  { label: "X", href: `https://x.com/intent/post?text=${encodedText}` },
+  { label: "Bluesky", href: `https://bsky.app/intent/compose?text=${encodedText}` },
+];
+---
+
+<p class="share">
+  <span class="meta">{t.share}</span>
+  {
+    targets.map(({ label, href }) => (
+      <a href={href} target="_blank" rel="noopener noreferrer">
+        {label}
+      </a>
+    ))
+  }
+</p>
+
+<style>
+  .share {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.9rem;
+    margin: 0 0 var(--space-m);
+    font-size: 1rem;
+  }
+</style>
