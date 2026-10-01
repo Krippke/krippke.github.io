@@ -26,38 +26,52 @@ const t = ui[Astro.props.lang];
         </svg>
       </button>
     </div>
+    <p class="search-error" data-search-error hidden>{t.searchUnavailable}</p>
     <div data-search-results></div>
   </div>
 </dialog>
 
 <script>
   const dialog = document.querySelector<HTMLDialogElement>("[data-search-dialog]")!;
+  const errorMessage = dialog.querySelector<HTMLElement>("[data-search-error]")!;
   let searchLoaded = false;
 
-  function loadStylesheet(href: string) {
+  function load(element: HTMLLinkElement | HTMLScriptElement, url: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      element.onload = () => resolve();
+      element.onerror = () => {
+        element.remove();
+        reject(new Error(`Could not load ${url}`));
+      };
+      document.head.append(element);
+    });
+  }
+
+  function loadStylesheet(href: string): Promise<void> {
     const link = document.createElement("link");
     link.rel = "stylesheet";
     link.href = href;
-    document.head.append(link);
+    return load(link, href);
   }
 
   function loadScript(src: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const script = document.createElement("script");
-      script.src = src;
-      script.onload = () => resolve();
-      script.onerror = () => reject(new Error(`Could not load ${src}`));
-      document.head.append(script);
-    });
+    const script = document.createElement("script");
+    script.src = src;
+    return load(script, src);
   }
 
   async function loadSearch() {
     if (searchLoaded) return;
-    searchLoaded = true;
-    loadStylesheet("/pagefind/pagefind-ui.css");
-    await loadScript("/pagefind/pagefind-ui.js");
-    const { PagefindUI } = window as unknown as { PagefindUI: new (options: object) => unknown };
-    new PagefindUI({ element: "[data-search-results]", showSubResults: false, showImages: false, resetStyles: false });
+    try {
+      await Promise.all([loadStylesheet("/pagefind/pagefind-ui.css"), loadScript("/pagefind/pagefind-ui.js")]);
+      const { PagefindUI } = window as unknown as { PagefindUI: new (options: object) => unknown };
+      new PagefindUI({ element: "[data-search-results]", showSubResults: false, showImages: false, resetStyles: false });
+      searchLoaded = true;
+      errorMessage.hidden = true;
+    } catch (error) {
+      errorMessage.hidden = false;
+      console.error(error);
+    }
   }
 
   document.querySelector("[data-search-open]")?.addEventListener("click", async () => {
@@ -97,6 +111,11 @@ const t = ui[Astro.props.lang];
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .search-error {
+    margin: 0.5rem 0 0;
+    color: var(--ink-soft);
   }
 
   .search-header h2 {

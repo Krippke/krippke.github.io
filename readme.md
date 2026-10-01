@@ -6,12 +6,12 @@ Personal blog at [www.manuel-holzrichter.de](https://www.manuel-holzrichter.de),
 
 ```bash
 npm install
-npm run dev       # http://localhost:4321, includes drafts
+npm run dev       # http://localhost:4321, includes drafts and a search index of the last build
 npm run build     # static site in dist/, plus search index
 npm test          # URL, feed and series-link contract
 ```
 
-Search only works after `npm run build` (`npm run preview` serves the result).
+Search is built by Pagefind from the finished site, so `npm run dev` builds once before it starts and the index does not pick up changes made while it runs.
 
 ## Content
 

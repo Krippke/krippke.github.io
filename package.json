@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "astro dev --force",
+    "dev": "astro build --force && pagefind --site dist --force-language en --output-path public/pagefind && astro dev --force",
     "build": "astro build --force && pagefind --site dist --force-language en",
     "preview": "astro preview",
     "test": "node --test \"tests/*.test.mjs\"",
