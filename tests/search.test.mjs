@@ -1,17 +1,16 @@
 import assert from "node:assert/strict";
-import { readdirSync } from "node:fs";
 import { test } from "node:test";
 import { isServed, readDist } from "./dist.mjs";
-
-const englishPostCount = readdirSync(new URL("../src/content/posts/en/", import.meta.url)).filter((name) => name.endsWith(".md")).length;
+import { publishedPostUrls } from "../src/lib/published-posts.ts";
 
 test("the search UI the dialog loads is part of the build", () => {
   assert.ok(isServed("/pagefind/pagefind-ui.js"));
   assert.ok(isServed("/pagefind/pagefind-ui.css"));
 });
 
-test("the search index covers the published posts", () => {
-  const entry = JSON.parse(readDist("/pagefind/pagefind-entry.json"));
-  const pageCount = Object.values(entry.languages).reduce((sum, { page_count }) => sum + page_count, 0);
-  assert.ok(pageCount > 0 && pageCount <= englishPostCount, `index has ${pageCount} pages`);
-});
+for (const lang of ["en", "de"]) {
+  test(`the ${lang} search index covers exactly the published ${lang} posts`, () => {
+    const { languages } = JSON.parse(readDist("/pagefind/pagefind-entry.json"));
+    assert.equal(languages[lang]?.page_count, publishedPostUrls(lang).size, JSON.stringify(languages));
+  });
+}

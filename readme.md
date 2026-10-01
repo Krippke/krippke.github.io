@@ -11,7 +11,7 @@ npm run build     # static site in dist/, plus search index
 npm test          # URL, feed and series-link contract
 ```
 
-Search is built by Pagefind from the finished site, so `npm run dev` builds once before it starts and the index does not pick up changes made while it runs.
+Search is built by Pagefind from the finished site, with one index per page language. Because of that, `npm run dev` builds once before it starts and the index does not pick up changes made while it runs.
 
 ## Content
 

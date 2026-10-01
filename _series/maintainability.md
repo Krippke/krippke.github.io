@@ -92,6 +92,8 @@ Ein Post pro Woche, jeweils mittwochs, manuell gepusht.
 
 Pro Post, beliebig lange vor dem Veröffentlichungstag:
 
-1. `git mv src/content/drafts/en/<slug>.md src/content/posts/en/<datum>-<slug>.md`
-2. `date` und `updated` im Front Matter ergänzen
+1. Beide Sprachen verschieben, der Dateiname bleibt in `en` und `de` gleich:
+   `git mv src/content/drafts/en/<slug>.md src/content/posts/en/<datum>-<slug>.md`
+   `git mv src/content/drafts/de/<slug>.md src/content/posts/de/<datum>-<slug>.md`
+2. `date` und `updated` im Front Matter beider Dateien ergänzen
 3. `npm run build && npm test` lokal prüfen und pushen. Der tägliche Build um 04:00 UTC veröffentlicht den Post am Datum im Dateinamen, die Serien-Links werden dabei automatisch aktiv.

@@ -12,7 +12,7 @@ export async function GET() {
     "",
     "> Personal blog of Manuel Holzrichter, who has been building software for over 15 years. Covers pragmatic software engineering: software architecture, automated testing, developer effectiveness, and working with AI.",
     "",
-    `The site is a static site at ${SITE_URL}, written in English with selected pages and posts in German. All posts are written by Manuel Holzrichter. Full-content Atom feeds are available at ${SITE_URL}${pathOf("feed", "en")} and ${SITE_URL}${pathOf("feed", "de")}.`,
+    `The site is a static site at ${SITE_URL}, written in English and German. All posts are written by Manuel Holzrichter. Full-content Atom feeds are available at ${SITE_URL}${pathOf("feed", "en")} and ${SITE_URL}${pathOf("feed", "de")}.`,
     "",
     "## Posts",
     "",

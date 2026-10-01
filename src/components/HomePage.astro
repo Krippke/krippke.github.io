@@ -3,7 +3,7 @@ import { pathOf } from "../i18n/routes.ts";
 import { ui } from "../i18n/ui.ts";
 import Base from "../layouts/Base.astro";
 import { type Lang, SITE_URL } from "../lib/post-path.ts";
-import { getPosts } from "../lib/posts.ts";
+import { getPosts, translationOf } from "../lib/posts.ts";
 import PostLog from "./PostLog.astro";
 
 interface Props {
@@ -13,7 +13,8 @@ interface Props {
 const { lang } = Astro.props;
 const t = ui[lang];
 const posts = await getPosts(lang);
-const englishPostsForGermanReaders = lang === "de" ? await getPosts("en") : [];
+const englishPostsForGermanReaders =
+  lang === "de" ? (await getPosts("en")).filter((post) => !translationOf(post, posts)) : [];
 const person = {
   "@context": "https://schema.org",
   "@type": "Person",
