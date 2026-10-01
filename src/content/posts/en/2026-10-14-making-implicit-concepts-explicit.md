@@ -1,6 +1,8 @@
 ---
 title: "Making implicit concepts explicit"
 excerpt: "The concept your business talks about every day often does not exist in your code. How to find implicit concepts, how to express them in the structure of the code, and why it turns complicated code into simple code."
+date: 2026-10-14 06:00:00 +0200
+updated: 2026-10-14T06:00:00+02:00
 teaser: /assets/images/implicit-concepts.jpg
 tags: [domain-driven-design, refactoring, legacy-code, maintainability, clean-code]
 ---

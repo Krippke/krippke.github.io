@@ -1,6 +1,8 @@
 ---
 title: "Responsibilities in the right layer"
 excerpt: "Business rules in SQL, date formatting in the backend, the system clock in the domain. When responsibilities sit on the wrong layer, every change spreads. Where each responsibility belongs, and why the dependency rule holds it all together."
+date: 2026-11-04 06:00:00 +0100
+updated: 2026-11-04T06:00:00+01:00
 teaser: /assets/images/right-layer.jpg
 tags: [clean-architecture, hexagonal-architecture, software-architecture, refactoring, maintainability]
 ---

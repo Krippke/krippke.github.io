@@ -1,6 +1,8 @@
 ---
 title: "Refactoring legacy code without fear"
 excerpt: "Without tests you have to walk slowly and carefully. With tests you can run. How to get a safety net into a legacy system that has none - and why the first tests are allowed to be wrong."
+date: 2026-10-07 06:00:00 +0200
+updated: 2026-10-07T06:00:00+02:00
 teaser: /assets/images/without-fear.jpg
 tags: [legacy-code, refactoring, testing, characterization-tests, maintainability]
 ---

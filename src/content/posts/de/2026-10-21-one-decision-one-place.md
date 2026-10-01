@@ -1,6 +1,8 @@
 ---
 title: "Eine Entscheidung, ein Ort"
 excerpt: "Jede Entscheidung, die an mehr als einem Ort lebt, driftet auseinander. Wie doppelte Entscheidungen Bugs erzeugen, lange bevor jemand sie anfasst – und warum zwei gleiche Zahlen nicht immer eine Duplizierung sind."
+date: 2026-10-21 06:00:00 +0200
+updated: 2026-10-21T06:00:00+02:00
 teaser: /assets/images/one-decision.jpg
 tags: [dry, single-source-of-truth, refactoring, legacy-code, maintainability]
 slug: eine-entscheidung-ein-ort

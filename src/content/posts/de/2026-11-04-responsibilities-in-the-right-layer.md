@@ -1,6 +1,8 @@
 ---
 title: "Verantwortung in der richtigen Schicht"
 excerpt: "Geschäftsregeln im SQL, Datumsformatierung im Backend, die Systemuhr in der Domäne. Wenn Verantwortung in der falschen Schicht liegt, breitet sich jede Änderung aus. Wo jede Verantwortung hingehört und warum die Abhängigkeitsregel alles zusammenhält."
+date: 2026-11-04 06:00:00 +0100
+updated: 2026-11-04T06:00:00+01:00
 teaser: /assets/images/right-layer.jpg
 tags: [clean-architecture, hexagonal-architecture, software-architecture, refactoring, maintainability]
 slug: verantwortung-in-der-richtigen-schicht

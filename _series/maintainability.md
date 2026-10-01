@@ -72,7 +72,7 @@ Alle Posts verwenden dieselbe Domäne und dieselben Namen. Code in Kotlin (Legac
 | 4 | Mi, 28.10.2026 | `one-responsibility-per-component.md` | Woran erkenne ich, dass eine Komponente geteilt werden muss? | Martin (SRP), Ousterhout |
 | 5 | Mi, 04.11.2026 | `responsibilities-in-the-right-layer.md` | Welche Verantwortung gehört auf welche Ebene? | Cockburn, Martin (Clean Architecture) |
 
-Ein Post pro Woche, jeweils mittwochs, manuell gepusht.
+Ein Post pro Woche, jeweils mittwochs. Die Posts liegen mit ihrem Datum im Dateinamen in `src/content/posts/`, der tägliche Build veröffentlicht sie automatisch.
 
 ## Konventionen
 

@@ -1,6 +1,8 @@
 ---
 title: "One decision, one place"
 excerpt: "Every decision that lives in more than one place will drift. How duplicated decisions create bugs long before anyone touches them - and why two identical numbers are not always a duplication."
+date: 2026-10-21 06:00:00 +0200
+updated: 2026-10-21T06:00:00+02:00
 teaser: /assets/images/one-decision.jpg
 tags: [dry, single-source-of-truth, refactoring, legacy-code, maintainability]
 ---

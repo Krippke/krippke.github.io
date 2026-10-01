@@ -1,6 +1,8 @@
 ---
 title: "Eine Verantwortung pro Komponente"
 excerpt: "Eine Komponente, die mehreren Abteilungen dient, hat mehrere Gründe, sich zu ändern – und jede Änderung für eine davon kann die anderen kaputt machen. Wie du erkennst, wann du aufteilen solltest, und wann das Aufteilen zu weit geht."
+date: 2026-10-28 06:00:00 +0100
+updated: 2026-10-28T06:00:00+01:00
 teaser: /assets/images/one-responsibility.jpg
 tags: [single-responsibility-principle, software-architecture, refactoring, legacy-code, maintainability]
 slug: eine-verantwortung-pro-komponente

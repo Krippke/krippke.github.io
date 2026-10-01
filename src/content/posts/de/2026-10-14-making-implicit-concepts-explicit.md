@@ -1,6 +1,8 @@
 ---
 title: "Implizite Konzepte explizit machen"
 excerpt: "Das Konzept, über das dein Fachbereich jeden Tag spricht, existiert in deinem Code oft gar nicht. Wie du implizite Konzepte findest, wie du sie in der Struktur des Codes ausdrückst und warum dadurch aus kompliziertem Code einfacher Code wird."
+date: 2026-10-14 06:00:00 +0200
+updated: 2026-10-14T06:00:00+02:00
 teaser: /assets/images/implicit-concepts.jpg
 tags: [domain-driven-design, refactoring, legacy-code, maintainability, clean-code]
 slug: implizite-konzepte-explizit-machen

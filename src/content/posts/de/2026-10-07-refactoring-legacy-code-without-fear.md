@@ -1,6 +1,8 @@
 ---
 title: "Legacy-Code ohne Angst refactoren"
 excerpt: "Ohne Tests musst du langsam und vorsichtig gehen. Mit Tests kannst du rennen. Wie du ein Sicherheitsnetz in ein Legacy-System bekommst, das keins hat – und warum die ersten Tests falsch sein dürfen."
+date: 2026-10-07 06:00:00 +0200
+updated: 2026-10-07T06:00:00+02:00
 teaser: /assets/images/without-fear.jpg
 tags: [legacy-code, refactoring, testing, characterization-tests, maintainability]
 slug: legacy-code-ohne-angst-refactoren

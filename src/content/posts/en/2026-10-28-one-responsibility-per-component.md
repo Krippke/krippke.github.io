@@ -1,6 +1,8 @@
 ---
 title: "One responsibility per component"
 excerpt: "A component that serves several departments has several reasons to change - and every change for one of them can break the others. How to recognize when to split, and when splitting goes too far."
+date: 2026-10-28 06:00:00 +0100
+updated: 2026-10-28T06:00:00+01:00
 teaser: /assets/images/one-responsibility.jpg
 tags: [single-responsibility-principle, software-architecture, refactoring, legacy-code, maintainability]
 ---
