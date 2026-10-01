@@ -1,14 +1,15 @@
 ---
+import { ui } from "../../i18n/ui.ts";
 import TextPage from "../../layouts/TextPage.astro";
 ---
 
 <TextPage
   lang="de"
   title="Über mich"
-  description="Manuel Holzrichter ist Softwareentwickler mit über 15 Jahren Erfahrung in Industrie und Verwaltung und schreibt über Architektur, Tests und effektive Entwicklung."
+  description="Manuel Holzrichter entwickelt seit über 15 Jahren Software und schreibt über Architektur, Tests und effektive Entwicklung."
   path="/de/ueber-mich"
   alternates={{ en: "/about" }}>
-  <p>Ich bin Manuel Holzrichter, Softwareentwickler mit über 15 Jahren Berufserfahrung in Industrie- und Behördenprojekten.</p>
+  <p>{ui.de.authorIntro}</p>
   <p>
     In meiner Laufbahn habe ich mit vielen Technologien gearbeitet und mich nie auf einen einzelnen Stack beschränkt. Was mich antreibt, ist
     Neugier: verstehen, wie Dinge funktionieren, warum manche Ansätze aufgehen und was Softwareteams wirklich effektiv macht.

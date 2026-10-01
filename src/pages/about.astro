@@ -1,14 +1,15 @@
 ---
+import { ui } from "../i18n/ui.ts";
 import TextPage from "../layouts/TextPage.astro";
 ---
 
 <TextPage
   lang="en"
   title="About"
-  description="Manuel Holzrichter is a software developer with 15+ years of experience across industry and government, writing about architecture, testing, and developer effectiveness."
+  description="Manuel Holzrichter has been building software for over 15 years and writes about architecture, testing, and developer effectiveness."
   path="/about"
   alternates={{ de: "/de/ueber-mich" }}>
-  <p>I’m Manuel Holzrichter, a software developer with over 15 years of professional experience across industry and government projects.</p>
+  <p>{ui.en.authorIntro}</p>
   <p>
     I’ve worked with a wide range of technologies throughout my career and never limited myself to a single stack. What drives me is
     curiosity — understanding how things work, why certain approaches succeed, and what makes software teams truly effective.

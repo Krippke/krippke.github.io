@@ -28,10 +28,7 @@ const person = {
     {
       lang === "en" ? (
         <>
-          <h1 class="intro-statement">
-            I’m Manuel Holzrichter, a software developer with over 15 years of experience across industry and government
-            projects.
-          </h1>
+          <h1 class="intro-statement">{t.authorIntro}</h1>
           <p class="intro-text measure">
             I write about software architecture, automated testing, and what makes developers truly effective, including how
             to work well with AI. Practical insights from real projects, not textbook theory.{" "}
@@ -40,9 +37,7 @@ const person = {
         </>
       ) : (
         <>
-          <h1 class="intro-statement">
-            Ich bin Manuel Holzrichter, Softwareentwickler mit über 15 Jahren Erfahrung in Industrie- und Behördenprojekten.
-          </h1>
+          <h1 class="intro-statement">{t.authorIntro}</h1>
           <p class="intro-text measure">
             Ich schreibe über Softwarearchitektur, automatisierte Tests und darüber, was Entwickler wirklich effektiv macht,
             auch im Zusammenspiel mit KI. Praxis aus echten Projekten statt Lehrbuchtheorie.{" "}

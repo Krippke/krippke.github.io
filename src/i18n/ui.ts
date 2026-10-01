@@ -3,6 +3,7 @@ import type { Lang } from "../lib/post-path.ts";
 const en = {
   siteDescription:
     "Pragmatic software engineering — exploring architecture, clear responsibilities, and what makes developers truly effective. Insights from 15+ years of hands-on experience.",
+  authorIntro: "I’m Manuel Holzrichter. I have been building software for over 15 years.",
   authorBio: "Curious about everything in tech.",
   locale: "en_US",
   languageName: "English",
@@ -13,6 +14,7 @@ const en = {
   search: "Search",
   searchLabel: "Search the blog",
   closeSearch: "Close",
+  searchUnavailable: "Search could not be loaded. Reload the page and try again.",
   toggleTheme: "Switch between light and dark mode",
   readTime: (minutes: number) => `${minutes} min read`,
   updated: "Updated",
@@ -41,6 +43,7 @@ type Ui = typeof en;
 const de: Ui = {
   siteDescription:
     "Pragmatische Softwareentwicklung — Architektur, klare Verantwortlichkeiten und was Entwickler wirklich effektiv macht. Aus über 15 Jahren Praxis.",
+  authorIntro: "Ich bin Manuel Holzrichter und entwickle seit über 15 Jahren Software.",
   authorBio: "Neugierig auf alles, was Technik ausmacht.",
   locale: "de_DE",
   languageName: "Deutsch",
@@ -51,6 +54,7 @@ const de: Ui = {
   search: "Suche",
   searchLabel: "Blog durchsuchen",
   closeSearch: "Schließen",
+  searchUnavailable: "Die Suche konnte nicht geladen werden. Laden Sie die Seite neu und versuchen Sie es noch einmal.",
   toggleTheme: "Zwischen hellem und dunklem Modus wechseln",
   readTime: (minutes: number) => `${minutes} Min. Lesezeit`,
   updated: "Aktualisiert",

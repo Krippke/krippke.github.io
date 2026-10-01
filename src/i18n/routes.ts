@@ -1,5 +1,7 @@
 import type { Lang } from "../lib/post-path.ts";
 
+export const CONTACT_EMAIL = "kontakt@manuel-holzrichter.de";
+
 export const pagePaths = {
   home: { en: "/", de: "/de/" },
   about: { en: "/about", de: "/de/ueber-mich" },

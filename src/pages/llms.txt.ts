@@ -10,7 +10,7 @@ export async function GET() {
   const text = [
     "# Manuel Holzrichter",
     "",
-    "> Personal blog of Manuel Holzrichter, a software developer with over 15 years of professional experience across industry and government projects. Covers pragmatic software engineering: software architecture, automated testing, developer effectiveness, and working with AI.",
+    "> Personal blog of Manuel Holzrichter, who has been building software for over 15 years. Covers pragmatic software engineering: software architecture, automated testing, developer effectiveness, and working with AI.",
     "",
     `The site is a static site at ${SITE_URL}, written in English with selected pages and posts in German. All posts are written by Manuel Holzrichter. Full-content Atom feeds are available at ${SITE_URL}${pathOf("feed", "en")} and ${SITE_URL}${pathOf("feed", "de")}.`,
     "",
@@ -22,7 +22,7 @@ export async function GET() {
     "## Pages",
     "",
     `- [About](${SITE_URL}${pathOf("about", "en")}): Who Manuel Holzrichter is and what this blog covers.`,
-    `- [Services](${SITE_URL}${pathOf("services", "en")}): Code review, system design and technical sparring that Manuel Holzrichter offers.`,
+    `- [Services](${SITE_URL}${pathOf("services", "en")}): Asynchronous codebase reviews, pull request reviews, design reviews and written second opinions by Manuel Holzrichter.`,
     `- [Contact](${SITE_URL}${pathOf("contact", "en")}): How to get in touch.`,
     "",
   ].join("\n");
