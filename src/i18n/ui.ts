@@ -43,7 +43,7 @@ type Ui = typeof en;
 const de: Ui = {
   siteDescription:
     "Pragmatische Softwareentwicklung — Architektur, klare Verantwortlichkeiten und was Entwickler wirklich effektiv macht. Aus über 15 Jahren Praxis.",
-  authorIntro: "Ich bin Manuel Holzrichter und entwickle seit über 15 Jahren Software.",
+  authorIntro: "Ich bin Manuel Holzrichter, Softwareentwickler seit über 15 Jahren.",
   authorBio: "Neugierig auf alles, was Technik ausmacht.",
   locale: "de_DE",
   languageName: "Deutsch",
